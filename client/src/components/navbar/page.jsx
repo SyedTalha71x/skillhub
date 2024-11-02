@@ -129,7 +129,7 @@ const Navbar = () => {
   return (
     <>
       <GlobalStyle />
-      <Header className="bg-[#242145] p-6 relative shadow-2xl">
+      <Header className="bg-[#242145] p-6 shadow-2xl sticky top-0">
         <div className="flex h-full items-center justify-between">
           <div className="flex items-center">
             <button
