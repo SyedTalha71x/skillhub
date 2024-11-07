@@ -4,6 +4,10 @@ import HomeBanner from '../../components/homebanner/page'
 import WhyChooseUs from '../../pages/whychooseus/page'
 import Solutions from '../../pages/solutions/page'
 import Services from '../../pages/services/page'
+import Testimonials from '../../pages/testimonials/page'
+import Joinus from '../../pages/joinus/page'
+import Footer from '../../components/footer/page'
+
 
 const Page = () => {
   return (
@@ -19,6 +23,15 @@ const Page = () => {
     </div>
     <div>
         <Services/>
+    </div>
+    <div>
+        <Testimonials/>
+    </div>
+    <div>
+      <Joinus/>
+    </div>
+    <div>
+      <Footer/>
     </div>
     </>
   )
