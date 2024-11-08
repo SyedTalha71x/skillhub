@@ -1,6 +1,4 @@
 /* eslint-disable no-unused-vars */
-"use client";
-
 import React, { useState } from "react";
 import { Layout, Menu, Drawer } from "antd";
 import {
@@ -10,6 +8,7 @@ import {
   CloseOutlined,
 } from "@ant-design/icons";
 import { createGlobalStyle } from "styled-components";
+import SemiNavbar from '../seminavbar/page'
 
 const GlobalStyle = createGlobalStyle`
   .custom-menu.ant-menu {
@@ -128,6 +127,7 @@ const Navbar = () => {
 
   return (
     <>
+      <SemiNavbar/>
       <GlobalStyle />
       <Header className="bg-[#242145] p-6 shadow-2xl sticky top-0 z-50">
         <div className="flex h-full items-center justify-between">
