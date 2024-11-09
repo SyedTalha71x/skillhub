@@ -7,6 +7,7 @@ import Services from '../../pages/services/page'
 import Testimonials from '../../pages/testimonials/page'
 import Joinus from '../../pages/joinus/page'
 import Footer from '../../components/footer/page'
+import Growth from '../growth/page'
 
 
 const Page = () => {
@@ -26,6 +27,9 @@ const Page = () => {
     </div>
     <div>
         <Testimonials/>
+    </div>
+    <div>
+      <Growth/>
     </div>
     <div>
       <Joinus/>
