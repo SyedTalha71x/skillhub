@@ -8,7 +8,8 @@ import {
   CloseOutlined,
 } from "@ant-design/icons";
 import { createGlobalStyle } from "styled-components";
-import SemiNavbar from '../seminavbar/page'
+import { Link } from "react-router-dom";
+import SemiNavbar from '../seminavbar/page';
 
 const GlobalStyle = createGlobalStyle`
   .custom-menu.ant-menu {
@@ -17,7 +18,7 @@ const GlobalStyle = createGlobalStyle`
   }
   .custom-menu.ant-menu .ant-menu-item,
   .custom-menu.ant-menu .ant-menu-submenu-title {
-    color: #9ca3af !important; /* text-gray-400 */
+    color: #9ca3af !important;
   }
   .custom-menu.ant-menu .ant-menu-item:hover,
   .custom-menu.ant-menu .ant-menu-submenu-title:hover {
@@ -80,27 +81,54 @@ const Navbar = () => {
       key: "solutions",
       label: "Solutions",
       children: [
-        { key: "for-individuals", label: "For Individuals" },
-        { key: "for-teams", label: "For Teams" },
-        { key: "for-enterprise", label: "For Enterprise" },
+        {
+          key: "for-individuals",
+          label: <Link to="/" className="hover:text-white">For Individuals</Link>,
+        },
+        {
+          key: "for-teams",
+          label: <Link to="/" className="hover:text-white">For Teams</Link>,
+        },
+        {
+          key: "for-enterprise",
+          label: <Link to="/" className="hover:text-white">For Enterprise</Link>,
+        },
       ],
     },
     {
       key: "products",
       label: "Products",
       children: [
-        { key: "skills", label: "Skills" },
-        { key: "flow", label: "Flow" },
-        { key: "labs", label: "Labs" },
+        {
+          key: "skills",
+          label: <Link to="/skills" className="hover:text-white">Skills</Link>,
+        },
+        {
+          key: "flow",
+          label: <Link to="/" className="hover:text-white">Flow</Link>,
+        },
+        {
+          key: "labs",
+          label: <Link to="/" className="hover:text-white">Labs</Link>,
+        },
       ],
     },
     {
       key: "resources",
       label: "Resources",
       children: [
-        { key: "blog", label: "Blog" },
-        { key: "customer-stories", label: "Customer Stories" },
-        { key: "support", label: "Support" },
+        {
+          key: "blog",
+          label: <Link to="/" className="hover:text-white">Blog</Link>,
+        },
+        {
+          key: "customer-stories",
+          label: <Link to="/" className="hover:text-white">Customer Stories</Link>,
+        },
+        {
+          key: "support",
+          label: <Link to="/" className="hover:text-white">Support</Link>,
+        },
       ],
     },
   ];
@@ -111,7 +139,7 @@ const Navbar = () => {
       key: "contact-sales",
       label: (
         <button className="w-full text-left px-4 py-2 text-sm font-semibold text-white border-2 border-blue-700 rounded-xl hover:bg-purple-600 transition-all duration-500">
-          Contact Sales
+          <Link to="/">Contact Sales</Link>
         </button>
       ),
     },
@@ -119,7 +147,7 @@ const Navbar = () => {
       key: "view-plans",
       label: (
         <button className="w-full text-left px-4 py-2 text-sm font-semibold text-white bg-[#EC008C] hover:bg-[#D1007D] rounded-xl transition-all duration-300">
-          View plans
+          <Link to="/">View Plans</Link>
         </button>
       ),
     },
@@ -127,7 +155,7 @@ const Navbar = () => {
 
   return (
     <>
-      <SemiNavbar/>
+      <SemiNavbar />
       <GlobalStyle />
       <Header className="bg-[#242145] p-6 shadow-2xl sticky top-0 z-50">
         <div className="flex h-full items-center justify-between">
@@ -167,10 +195,10 @@ const Navbar = () => {
               <span className="sr-only">Search</span>
             </button>
             <button className="hidden md:inline-flex items-center px-4 py-2 text-sm border-2 border-blue-700 font-semibold rounded-xl text-white hover:bg-purple-600 transition-all duration-500">
-              Contact Sales
+              <Link to="/contact-sales">Contact Sales</Link>
             </button>
             <button className="hidden md:inline-flex items-center px-4 py-2 text-sm font-semibold rounded-xl text-white bg-[#EC008C] hover:bg-[#D1007D] transition-all duration-300">
-              View plans
+              <Link to="/view-plans">View Plans</Link>
             </button>
           </div>
         </div>
@@ -181,7 +209,7 @@ const Navbar = () => {
               className="fixed inset-0 bg-black bg-opacity-50 transition-opacity z-40"
               onClick={toggleSearch}
             />
-            <div className="absolute left-0  right-0 top-full bg-[#242145] shadow-md z-50">
+            <div className="absolute left-0 right-0 top-full bg-[#242145] shadow-md z-50">
               <div className="px-4 py-4 flex justify-between items-center">
                 <input
                   type="text"

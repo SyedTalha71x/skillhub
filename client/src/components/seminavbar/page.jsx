@@ -1,16 +1,16 @@
-/* eslint-disable no-unused-vars */
 import { useState } from 'react'
-import { ChevronDown, Menu, X } from 'lucide-react'
+import {  Menu, X } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
 const navItems = [
-  { name: 'For individuals', href: '#', isPrimary: true },
-  { name: 'For businesses', href: '#', isPrimary: true },
-  { name: 'For public sector', href: '#', isPrimary: true },
-  { name: 'Pluralsight', href: '#', isPrimary: false },
-  { name: 'Skills', href: '#', isPrimary: false },
-  { name: 'A Cloud Guru', href: '#', isPrimary: false },
-  { name: 'Flow', href: '#', isPrimary: false },
-  { name: 'Blog', href: '#', isPrimary: false },
+  { name: 'For individuals', to: '/', isPrimary: true },
+  { name: 'For businesses', to: '/', isPrimary: true },
+  { name: 'For public sector', to: '/', isPrimary: true },
+  { name: 'Skillhub', to: '/', isPrimary: false },
+  { name: 'Skills', to: '/skills', isPrimary: false },
+  { name: 'A Cloud Guru', to: '/', isPrimary: false },
+  { name: 'Flow', to: '/', isPrimary: false },
+  { name: 'Blog', to: '/', isPrimary: false },
 ]
 
 const Page = () => {
@@ -22,13 +22,13 @@ const Page = () => {
         <div className="flex h-16 items-center justify-between">
           <div className="hidden md:flex md:space-x-4">
             {navItems.filter(item => item.isPrimary).map((item) => (
-              <a
+              <Link
                 key={item.name}
-                href={item.href}
+                to={item.to}
                 className="rounded-xl border border-blue-800 px-4 py-1.5 text-sm hover:bg-blue-900 transition-all duration-500"
               >
                 {item.name}
-              </a>
+              </Link>
             ))}
           </div>
 
@@ -49,9 +49,9 @@ const Page = () => {
 
           <div className="hidden items-center md:flex md:space-x-6">
             {navItems.filter(item => !item.isPrimary).map((item) => (
-              <a key={item.name} href={item.href} className="text-sm hover:text-blue-600 text-gray-300 transition-all duration-300">
+              <Link key={item.name} to={item.to} className="text-sm hover:text-blue-600 text-gray-300 transition-all duration-300">
                 {item.name}
-              </a>
+              </Link>
             ))}
             <div className="relative">
               <button
@@ -81,31 +81,31 @@ const Page = () => {
             {navItems
               .filter((item) => !item.isPrimary)
               .map((item) => (
-                <a
+                <Link
                   key={item.name}
-                  href={item.href}
+                  to={item.to}
                   className="block px-4 py-1.5 text-sm border-t border-white/10 first:border-t-0"
                 >
                   {item.name}
-                </a>
+                </Link>
               ))}
 
             {/* Render primary nav items next */}
             {navItems
               .filter((item) => item.isPrimary)
               .map((item) => (
-                <a
+                <Link
                   key={item.name}
-                  href={item.href}
+                  to={item.to}
                   className="block px-4 py-1.5 text-sm rounded-full border text-center border-blue-800 hover:bg-blue-900 transition-all duration-500"
                 >
                   {item.name}
-                </a>
+                </Link>
               ))}
 
             {/* Sign in link at the bottom */}
             <a
-              href="#"
+              to="#"
               className="block rounded-full border-2 border-blue-800 hover:bg-blue-900 bg-blue-800 px-4 py-1.5 text-center text-sm transition-all duration-500"
             >
               Sign in

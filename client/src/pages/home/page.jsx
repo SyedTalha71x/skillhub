@@ -34,9 +34,6 @@ const Page = () => {
     <div>
       <Joinus/>
     </div>
-    <div>
-      <Footer/>
-    </div>
     </>
   )
 }
