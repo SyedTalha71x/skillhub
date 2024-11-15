@@ -6,18 +6,30 @@ import Home from "./pages/home/page";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SkillsPage from './partials/skills/page'
 import Footer from './components/footer/page'
+import Login from './authentication/login/page'
+import Register from './authentication/register/page'
+import { useLocation } from "react-router-dom";
+import ViewPlans from './partials/plans/viewplans/page'
+import SkillPlan from './partials/plans/skillplan/page'
+import CloudPlan from './partials/plans/cloudplan/page'
 
 function App() {
+  const location = useLocation();
+  const hideFooterPaths = ["login","register"]
   return (
     <>
-      <BrowserRouter>
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/skills" element={<SkillsPage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/viewplans" element={<ViewPlans />} />
+          <Route path="/skillsplan" element={<SkillPlan />} />
+          <Route path="/cloudplan" element={<CloudPlan />} />
+
         </Routes>
-        <Footer/>
-      </BrowserRouter>
+        {!location.pathname === hideFooterPaths && <Footer />}
     </>
   );
 }

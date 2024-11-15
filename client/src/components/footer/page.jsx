@@ -3,7 +3,7 @@ import React from "react";
 
 const Page = () => {
   return (
-    <footer className="w-full py-16 mt-[6%] bg-[#201d3e]">
+    <footer className="w-full py-16 px-8 mt-[4%] bg-[#201d3e]">
       <div className="mx-auto max-w-7xl">
         <div className="grid grid-cols-2 lg:grid-cols-4 2xl:grid-cols-6 gap-8 py-10 ">
           <div className="col-span-full mb-10 2xl:col-span-2 lg:mb-0 flex items-center flex-col 2xl:items-start">

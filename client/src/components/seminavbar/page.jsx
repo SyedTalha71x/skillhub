@@ -54,12 +54,14 @@ const Page = () => {
               </Link>
             ))}
             <div className="relative">
+              <Link to={"/login"}>
               <button
                 className="flex items-center space-x-2 rounded-full border-2 border-blue-800 hover:bg-blue-900 bg-blue-800 px-8 py-1.5 transition-all duration-500 text-sm"
                 aria-haspopup="true"
-              >
+                >
                 <span>Sign in</span>
               </button>
+                </Link>
             </div>
           </div>
         </div>
@@ -104,12 +106,12 @@ const Page = () => {
               ))}
 
             {/* Sign in link at the bottom */}
-            <a
-              to="#"
+            <Link
+              to="/login"
               className="block rounded-full border-2 border-blue-800 hover:bg-blue-900 bg-blue-800 px-4 py-1.5 text-center text-sm transition-all duration-500"
             >
               Sign in
-            </a>
+            </Link>
           </div>
         </div>
       </div>

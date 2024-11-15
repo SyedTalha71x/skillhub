@@ -147,7 +147,7 @@ const Navbar = () => {
       key: "view-plans",
       label: (
         <button className="w-full text-left px-4 py-2 text-sm font-semibold text-white bg-[#EC008C] hover:bg-[#D1007D] rounded-xl transition-all duration-300">
-          <Link to="/">View Plans</Link>
+          <Link to="/viewplans">View Plans</Link>
         </button>
       ),
     },
@@ -198,7 +198,7 @@ const Navbar = () => {
               <Link to="/contact-sales">Contact Sales</Link>
             </button>
             <button className="hidden md:inline-flex items-center px-4 py-2 text-sm font-semibold rounded-xl text-white bg-[#EC008C] hover:bg-[#D1007D] transition-all duration-300">
-              <Link to="/view-plans">View Plans</Link>
+              <Link to="/viewplans">View Plans</Link>
             </button>
           </div>
         </div>
