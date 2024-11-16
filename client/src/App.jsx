@@ -29,7 +29,7 @@ function App() {
           <Route path="/cloudplan" element={<CloudPlan />} />
 
         </Routes>
-        {!location.pathname === hideFooterPaths && <Footer />}
+        {location.pathname !== hideFooterPaths && <Footer />}
     </>
   );
 }
