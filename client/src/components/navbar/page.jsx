@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import { Layout, Menu, Drawer } from "antd";
+import { X } from "lucide-react";
 import {
   MenuOutlined,
   SearchOutlined,
@@ -9,7 +10,7 @@ import {
 } from "@ant-design/icons";
 import { createGlobalStyle } from "styled-components";
 import { Link } from "react-router-dom";
-import SemiNavbar from '../seminavbar/page';
+import SemiNavbar from "../seminavbar/page";
 
 const GlobalStyle = createGlobalStyle`
   .custom-menu.ant-menu {
@@ -58,6 +59,29 @@ const { Header } = Layout;
 const Navbar = () => {
   const [visible, setVisible] = useState(false);
   const [searchVisible, setSearchVisible] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    businessEmail: "",
+    company: "",
+    jobRole: "",
+    phone: "",
+    country: "",
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setIsOpen(false);
+  };
 
   const showDrawer = () => {
     setVisible(true);
@@ -83,15 +107,27 @@ const Navbar = () => {
       children: [
         {
           key: "for-individuals",
-          label: <Link to="/" className="hover:text-white">For Individuals</Link>,
+          label: (
+            <Link to="/" className="hover:text-white">
+              For Individuals
+            </Link>
+          ),
         },
         {
           key: "for-teams",
-          label: <Link to="/" className="hover:text-white">For Teams</Link>,
+          label: (
+            <Link to="/" className="hover:text-white">
+              For Teams
+            </Link>
+          ),
         },
         {
           key: "for-enterprise",
-          label: <Link to="/" className="hover:text-white">For Enterprise</Link>,
+          label: (
+            <Link to="/" className="hover:text-white">
+              For Enterprise
+            </Link>
+          ),
         },
       ],
     },
@@ -101,15 +137,27 @@ const Navbar = () => {
       children: [
         {
           key: "skills",
-          label: <Link to="/skills" className="hover:text-white">Skills</Link>,
+          label: (
+            <Link to="/skills" className="hover:text-white">
+              Skills
+            </Link>
+          ),
         },
         {
           key: "flow",
-          label: <Link to="/" className="hover:text-white">Flow</Link>,
+          label: (
+            <Link to="/" className="hover:text-white">
+              Flow
+            </Link>
+          ),
         },
         {
           key: "labs",
-          label: <Link to="/" className="hover:text-white">Labs</Link>,
+          label: (
+            <Link to="/" className="hover:text-white">
+              Labs
+            </Link>
+          ),
         },
       ],
     },
@@ -119,15 +167,27 @@ const Navbar = () => {
       children: [
         {
           key: "blog",
-          label: <Link to="/" className="hover:text-white">Blog</Link>,
+          label: (
+            <Link to="/" className="hover:text-white">
+              Blog
+            </Link>
+          ),
         },
         {
           key: "customer-stories",
-          label: <Link to="/" className="hover:text-white">Customer Stories</Link>,
+          label: (
+            <Link to="/" className="hover:text-white">
+              Customer Stories
+            </Link>
+          ),
         },
         {
           key: "support",
-          label: <Link to="/" className="hover:text-white">Support</Link>,
+          label: (
+            <Link to="/" className="hover:text-white">
+              Support
+            </Link>
+          ),
         },
       ],
     },
@@ -139,7 +199,7 @@ const Navbar = () => {
       key: "contact-sales",
       label: (
         <button className="w-full text-left px-4 py-2 text-sm font-semibold text-white border-2 border-blue-700 rounded-xl hover:bg-purple-600 transition-all duration-500">
-          <Link to="/">Contact Sales</Link>
+          <div onClick={()=>{setIsOpen(true)}}>Contact Sales</div>
         </button>
       ),
     },
@@ -195,7 +255,7 @@ const Navbar = () => {
               <span className="sr-only">Search</span>
             </button>
             <button className="hidden md:inline-flex items-center px-4 py-2 text-sm border-2 border-blue-700 font-semibold rounded-xl text-white hover:bg-purple-600 transition-all duration-500">
-              <Link to="/contact-sales">Contact Sales</Link>
+              <div onClick={()=>{setIsOpen(true)}}>Contact Sales</div>
             </button>
             <button className="hidden md:inline-flex items-center px-4 py-2 text-sm font-semibold rounded-xl text-white bg-[#EC008C] hover:bg-[#D1007D] transition-all duration-300">
               <Link to="/viewplans">View Plans</Link>
@@ -243,6 +303,111 @@ const Navbar = () => {
           />
         </Drawer>
       </Header>
+
+      {isOpen && (
+        <div className="fixed inset-0 z-50 overflow-auto  bg-black bg-opacity-50 flex items-center justify-center p-4">
+          <div className="relative  w-full max-w-lg mx-auto bg-[#1e1b38] rounded-lg shadow-lg">
+            <button
+              onClick={() => setIsOpen(false)}
+              className="absolute top-2 right-2 text-gray-400 hover:text-white"
+            >
+              <X size={24} />
+            </button>
+            <div className="p-6">
+              <h2 className="text-2xl font-bold text-white mb-4">
+                Schedule a Demo
+              </h2>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="grid grid-cols-2 sm:grid-cols-2 gap-4">
+                  <input
+                    type="text"
+                    name="firstName"
+                    placeholder="First Name"
+                    value={formData.firstName}
+                    onChange={handleInputChange}
+                    className="w-full p-2 bg-[#2d2a4a] text-sm text-white rounded outline-none"
+                    required
+                  />
+                  <input
+                    type="text"
+                    name="lastName"
+                    placeholder="Last Name"
+                    value={formData.lastName}
+                    onChange={handleInputChange}
+                    className="w-full p-2 bg-[#2d2a4a] text-sm text-white rounded outline-none"
+                    required
+                  />
+                </div>
+                <input
+                  type="email"
+                  name="businessEmail"
+                  placeholder="Business Email"
+                  value={formData.businessEmail}
+                  onChange={handleInputChange}
+                  className="w-full p-2 bg-[#2d2a4a] text-sm text-white rounded outline-none"
+                  required
+                />
+                <input
+                  type="text"
+                  name="company"
+                  placeholder="Company"
+                  value={formData.company}
+                  onChange={handleInputChange}
+                  className="w-full p-2 bg-[#2d2a4a] text-sm text-white rounded outline-none"
+                  required
+                />
+                <select
+                  name="jobRole"
+                  value={formData.jobRole}
+                  onChange={handleInputChange}
+                  className="w-full p-2 bg-[#2d2a4a] text-sm text-white rounded outline-none"
+                  required
+                >
+                  <option value="">Select Job Role</option>
+                  <option value="manager">Manager</option>
+                  <option value="developer">Developer</option>
+                  <option value="designer">Designer</option>
+                </select>
+                <input
+                  type="tel"
+                  name="phone"
+                  placeholder="Phone"
+                  value={formData.phone}
+                  onChange={handleInputChange}
+                  className="w-full p-2 bg-[#2d2a4a] text-sm text-white rounded outline-none"
+                  required
+                />
+                <select
+                  name="country"
+                  value={formData.country}
+                  onChange={handleInputChange}
+                  className="w-full p-2 bg-[#2d2a4a] text-sm text-white rounded outline-none"
+                  required
+                >
+                  <option value="">Select Country</option>
+                  <option value="us">United States</option>
+                  <option value="uk">United Kingdom</option>
+                  <option value="ca">Canada</option>
+                </select>
+                <div className="text-sm text-gray-400">
+                  By filling out this form and clicking submit, you acknowledge
+                  our{" "}
+                  <a href="#" className="text-pink-500 hover:underline">
+                    privacy policy
+                  </a>
+                  .
+                </div>
+                <button
+                  type="submit"
+                  className="w-full p-2 text-white bg-pink-600 rounded hover:bg-pink-700"
+                >
+                  Submit
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };
