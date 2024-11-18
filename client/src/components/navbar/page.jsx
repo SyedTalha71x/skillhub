@@ -198,7 +198,7 @@ const Navbar = () => {
     {
       key: "contact-sales",
       label: (
-        <button className="w-full text-left px-4 py-2 text-sm font-semibold text-white border-2 border-blue-700 rounded-xl hover:bg-purple-600 transition-all duration-500">
+        <button className="w-full text-left px-4 py-2 text-sm font-semibold text-white border-2 border-blue-700 rounded-xl transition-all duration-500">
           <div onClick={()=>{setIsOpen(true)}}>Contact Sales</div>
         </button>
       ),
@@ -206,7 +206,7 @@ const Navbar = () => {
     {
       key: "view-plans",
       label: (
-        <button className="w-full text-left px-4 py-2 text-sm font-semibold text-white bg-[#EC008C] hover:bg-[#D1007D] rounded-xl transition-all duration-300">
+        <button className="w-full text-left px-4 py-2 text-sm font-semibold text-white bg-[#EC008C]  rounded-xl transition-all duration-300">
           <Link to="/viewplans">View Plans</Link>
         </button>
       ),
