@@ -305,8 +305,8 @@ const Navbar = () => {
       </Header>
 
       {isOpen && (
-        <div className="fixed inset-0 z-50 overflow-auto  bg-black bg-opacity-50 flex items-center justify-center p-4">
-          <div className="relative  w-full max-w-lg mx-auto bg-[#1e1b38] rounded-lg shadow-lg">
+        <div className="fixed inset-0 z-50 overflow-auto   bg-black bg-opacity-70 flex items-center justify-center p-4">
+          <div className="relative mt-[7%] p-1  w-full max-w-lg mx-auto bg-[#1e1b38] rounded-lg shadow-lg">
             <button
               onClick={() => setIsOpen(false)}
               className="absolute top-2 right-2 text-gray-400 hover:text-white"
