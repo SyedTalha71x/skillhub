@@ -8,9 +8,9 @@ const navItems = [
   { name: 'For public sector', to: '/', isPrimary: true },
   { name: 'Skillhub', to: '/', isPrimary: false },
   { name: 'Skills', to: '/skills', isPrimary: false },
-  { name: 'A Cloud Guru', to: '/', isPrimary: false },
+  { name: 'A Cloud Guru', to: '/cloudguru', isPrimary: false },
   { name: 'Flow', to: '/', isPrimary: false },
-  { name: 'Blog', to: '/', isPrimary: false },
+  { name: 'Blog', to: '/blogs', isPrimary: false },
 ]
 
 const Page = () => {

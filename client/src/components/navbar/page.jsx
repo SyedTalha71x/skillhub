@@ -257,7 +257,7 @@ const Navbar = () => {
             <button className="hidden md:inline-flex items-center px-4 py-2 text-sm border-2 border-blue-700 font-semibold rounded-xl text-white hover:bg-purple-600 transition-all duration-500">
               <div onClick={()=>{setIsOpen(true)}}>Contact Sales</div>
             </button>
-            <button className="hidden md:inline-flex items-center px-4 py-2 text-sm font-semibold rounded-xl text-white bg-[#EC008C] hover:bg-[#D1007D] transition-all duration-300">
+            <button className="hidden md:inline-flex items-center px-4 py-2 text-sm font-semibold rounded-xl text-white bg-[#EC008C] transition-all duration-300">
               <Link to="/viewplans">View Plans</Link>
             </button>
           </div>

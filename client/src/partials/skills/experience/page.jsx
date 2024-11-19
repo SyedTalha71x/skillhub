@@ -13,7 +13,7 @@ const Page =  () => {
   return (
     <div className="bg-white mt-[7%] px-4 sm:px-6 lg:px-8 mb-10">
       <div className="max-w-7xl mx-auto">
-        <div className="flex flex-col lg:flex-row gap-24 items-center lg:items-start justify-between">
+        <div className="flex flex-col lg:flex-row lg:gap-16 md:gap-16 sm:gap- gap-0 items-center lg:items-start justify-between">
           <div className="w-full lg:w-1/2 mb-8 lg:mb-0">
             <div className="relative w-full h-0 pb-[75%] rounded-2xl overflow-hidden shadow-lg">
               <img

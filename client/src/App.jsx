@@ -12,6 +12,9 @@ import { useLocation } from "react-router-dom";
 import ViewPlans from './partials/plans/viewplans/page'
 import SkillPlan from './partials/plans/skillplan/page'
 import CloudPlan from './partials/plans/cloudplan/page'
+import Blog from './partials/blogs/page'
+import DetailBlogs from './partials/blogs/detailblogs/page'
+import CloudGuru from './partials/cloudguru/page'
 
 function App() {
   const location = useLocation();
@@ -27,6 +30,10 @@ function App() {
           <Route path="/viewplans" element={<ViewPlans />} />
           <Route path="/skillsplan" element={<SkillPlan />} />
           <Route path="/cloudplan" element={<CloudPlan />} />
+          <Route path="/blogs" element={<Blog />} />
+          <Route path="/moreblogs" element={<DetailBlogs />} />
+          <Route path="/cloudguru" element={<CloudGuru />} />
+
 
         </Routes>
         {location.pathname !== hideFooterPaths && <Footer />}
