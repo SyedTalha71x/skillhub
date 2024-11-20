@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: skillhub
+  labels:
+    app: skillhub
+spec:
+  replicas: 1  # Specifies how many pod replicas you want to run
+  selector:  # Tells the deployment which pods to manage
+    matchLabels:
+      app: skillhub
+  template:  # Describes the pods that will be created
+    metadata:
+      labels:
+        app: skillhub
+    spec:  # Specifies the pod template
+      containers:
+        - name: skillhub-app
+          image: talhahussainx673/skillhub:latest
+          ports:
+            - containerPort: 3000  
+
