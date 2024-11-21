@@ -18,5 +18,5 @@ spec:
         - name: skillhub-app
           image: talhahussainx673/skillhub:latest
           ports:
-            - containerPort: 3000  
+            - containerPort: 5173  
 
