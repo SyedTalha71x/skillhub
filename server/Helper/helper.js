@@ -1,3 +1,11 @@
+import jwt from 'jsonwebtoken'
+
+
+export const generateToken = (userId, email) =>{
+    const result = jwt.sign(userId, email)
+    return result
+}
+
 export const SuccessResponse = (res,data = {}, message = "Success", statusCode) =>{
     return res.status(statusCode).json({
         status: 'Success',
@@ -5,7 +13,6 @@ export const SuccessResponse = (res,data = {}, message = "Success", statusCode) 
         message
     })
 }
-
 export const FailureResponse = (res, error, message = "An Error Occurred", statusCode) =>{
     return res.status(statusCode).json({
         status: 'Failure',
