@@ -5,8 +5,8 @@ metadata:
   labels:
     app: skillhub
 spec:
-  replicas: 1  # Specifies how many pod replicas you want to run
-  selector:  # Tells the deployment which pods to manage
+  replicas: 1 
+  selector: 
     matchLabels:
       app: skillhub
   template:  # Describes the pods that will be created

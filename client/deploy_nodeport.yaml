@@ -8,10 +8,10 @@ metadata:
 spec:
   type: NodePort
   selector:
-    app: skillhub  # Must match the label in the Deployment's pod template
+    app: skillhub  
   ports:
     - protocol: TCP
-      port: 3000       # The port exposed by the Service
-      targetPort: 5173 # The port your container listens on
-      nodePort: 31000  # Optional, specify a custom NodePort in the 30000-32767 range
+      port: 3000      
+      targetPort: 5173 
+      nodePort: 31000 
 
