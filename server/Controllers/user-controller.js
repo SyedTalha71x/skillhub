@@ -16,7 +16,6 @@ export const login = async (req,res) =>{
         if(!comparePassword){
             return FailureResponse(res, 'Password is invalid', null, 400)
         }
-
         const AuthToken =  generateToken(checkExistingUser.id, checkExistingUser.email)
 
         return SuccessResponse(res, 'Login Successfull', {AuthToken}, 200)
