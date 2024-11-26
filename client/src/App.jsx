@@ -15,6 +15,7 @@ import CloudPlan from './partials/plans/cloudplan/page'
 import Blog from './partials/blogs/page'
 import DetailBlogs from './partials/blogs/detailblogs/page'
 import CloudGuru from './partials/cloudguru/page'
+import Courses from './partials/courses/page'
 
 function App() {
   const location = useLocation();
@@ -33,8 +34,7 @@ function App() {
           <Route path="/blogs" element={<Blog />} />
           <Route path="/moreblogs" element={<DetailBlogs />} />
           <Route path="/cloudguru" element={<CloudGuru />} />
-
-
+          <Route path="/courses" element={<Courses />} />
         </Routes>
         {location.pathname !== hideFooterPaths && <Footer />}
     </>

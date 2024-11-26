@@ -9,7 +9,7 @@ const navItems = [
   { name: 'Skillhub', to: '/', isPrimary: false },
   { name: 'Skills', to: '/skills', isPrimary: false },
   { name: 'A Cloud Guru', to: '/cloudguru', isPrimary: false },
-  { name: 'Flow', to: '/', isPrimary: false },
+  { name: 'Courses', to: '/courses', isPrimary: false },
   { name: 'Blog', to: '/blogs', isPrimary: false },
 ]
 

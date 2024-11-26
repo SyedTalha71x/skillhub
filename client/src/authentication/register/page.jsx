@@ -118,7 +118,7 @@ const Page = () => {
           </form>
           <div className="mt-8 pt-6 border-t border-[#373860] text-center">
             <p className="text-white mb-4">Already have an account?</p>
-            <Link to={"/sign"}>
+            <Link to={"/login"}>
               <button className="px-6 py-2 border border-[#373860] rounded text-white hover:bg-[#252640] transition-colors">
                 Sign in
               </button>
