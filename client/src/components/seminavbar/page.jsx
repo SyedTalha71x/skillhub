@@ -1,31 +1,29 @@
-import { useState } from 'react'
-import {  Menu, X } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import { useState } from 'react';
+import { Menu, X } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const navItems = [
-  { name: 'For individuals', to: '/', isPrimary: true },
-  { name: 'For businesses', to: '/', isPrimary: true },
-  { name: 'For public sector', to: '/', isPrimary: true },
   { name: 'Skillhub', to: '/', isPrimary: false },
   { name: 'Skills', to: '/skills', isPrimary: false },
   { name: 'A Cloud Guru', to: '/cloudguru', isPrimary: false },
   { name: 'Courses', to: '/courses', isPrimary: false },
   { name: 'Blog', to: '/blogs', isPrimary: false },
-]
+];
 
 const Page = () => {
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <nav className="bg-[rgb(20,20,46)] text-white z-[1000] cursor-pointer relative">
       <div className="mx-auto lg:w-[90%] md:w-[90%] sm:w-full w-full px-4">
         <div className="flex h-16 items-center justify-between">
-          <div className="hidden md:flex md:space-x-4">
-            {navItems.filter(item => item.isPrimary).map((item) => (
+          {/* Left section: Navigation items */}
+          <div className="hidden md:flex md:space-x-6">
+            {navItems.map((item) => (
               <Link
                 key={item.name}
                 to={item.to}
-                className="rounded-xl border border-blue-800 px-4 py-1.5 text-sm hover:bg-blue-900 transition-all duration-500"
+                className="text-sm hover:text-blue-600 text-gray-300 transition-all duration-300"
               >
                 {item.name}
               </Link>
@@ -47,21 +45,17 @@ const Page = () => {
             </button>
           </div>
 
-          <div className="hidden items-center md:flex md:space-x-6">
-            {navItems.filter(item => !item.isPrimary).map((item) => (
-              <Link key={item.name} to={item.to} className="text-sm hover:text-blue-600 text-gray-300 transition-all duration-300">
-                {item.name}
-              </Link>
-            ))}
+          {/* Right section: Sign in button */}
+          <div className="hidden md:flex">
             <div className="relative">
               <Link to={"/login"}>
-              <button
-                className="flex items-center space-x-2 rounded-full border-2 border-blue-800 hover:bg-blue-900 bg-blue-800 px-8 py-1.5 transition-all duration-500 text-sm"
-                aria-haspopup="true"
+                <button
+                  className="flex items-center space-x-2 rounded-full border-2 border-blue-800 hover:bg-blue-900 bg-blue-800 px-8 py-1.5 transition-all duration-500 text-sm"
+                  aria-haspopup="true"
                 >
-                <span>Sign in</span>
-              </button>
-                </Link>
+                  <span>Sign in</span>
+                </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -79,33 +73,15 @@ const Page = () => {
             <X className="h-6 w-6" />
           </button>
           <div className="space-y-4 p-6 pt-16">
-            {/* Render non-primary nav items first */}
-            {navItems
-              .filter((item) => !item.isPrimary)
-              .map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.to}
-                  className="block px-4 py-1.5 text-sm border-t border-white/10 first:border-t-0"
-                >
-                  {item.name}
-                </Link>
-              ))}
-
-            {/* Render primary nav items next */}
-            {navItems
-              .filter((item) => item.isPrimary)
-              .map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.to}
-                  className="block px-4 py-1.5 text-sm rounded-full border text-center border-blue-800 hover:bg-blue-900 transition-all duration-500"
-                >
-                  {item.name}
-                </Link>
-              ))}
-
-            {/* Sign in link at the bottom */}
+            {navItems.map((item) => (
+              <Link
+                key={item.name}
+                to={item.to}
+                className="block px-4 py-1.5 text-sm border-t border-white/10 first:border-t-0"
+              >
+                {item.name}
+              </Link>
+            ))}
             <Link
               to="/login"
               className="block rounded-full border-2 border-blue-800 hover:bg-blue-900 bg-blue-800 px-4 py-1.5 text-center text-sm transition-all duration-500"
@@ -116,7 +92,7 @@ const Page = () => {
         </div>
       </div>
     </nav>
-  )
-}
+  );
+};
 
-export default Page
+export default Page;
