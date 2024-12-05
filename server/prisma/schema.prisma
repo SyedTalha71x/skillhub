@@ -15,8 +15,53 @@ datasource db {
 
 model User {
   id        String @id @default(auto()) @map("_id") @db.ObjectId
-  username      String
+  username  String
   email     String @unique
   password  String
+  roles     Role_To_User[]   // Relation to roles as an instructor
+  courses    Course[]        // Relation to courses as an instructor
+  enrollments Enrollment[]   // Relation to enrollments as a student
   createdAt DateTime @default(now())
+}
+
+model Role {
+    id      String @id @default(auto()) @map("_id") @db.ObjectId
+    name    String
+    users   Role_To_User[]
+}
+
+model Role_To_User {
+   id       String @id @default(auto()) @map("_id") @db.ObjectId
+   roleId   String @db.ObjectId
+   userId   String @db.ObjectId
+
+   role   Role   @relation(fields: [roleId], references: [id])
+   user   User   @relation(fields: [userId], references: [id])
+}
+
+model Course {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String
+  price       Float
+  category    String
+  instructorId String
+  instructor  User     @relation(fields: [instructorId], references: [id])
+  thumbnail   String?
+  syllabus    Json?
+  duration    Int 
+  isPublished Boolean @default(false)
+  students    Enrollment[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Enrollment{
+    id          String   @id @default(auto()) @map("_id") @db.ObjectId 
+    studentId   String   @db.ObjectId
+    courseId    String   @db.ObjectId
+    student     User     @relation(fields: [studentId], references: [id])
+    course      Course   @relation(fields: [courseId], references: [id])
+    enrolledAt  DateTime @default(now()) 
+    enrollmentNo Int 
 }
