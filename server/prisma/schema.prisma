@@ -54,6 +54,8 @@ model Course {
   students    Enrollment[]
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
+  videoUrl    String
+  FlagValidity Int      @default(-1)
 }
 
 model Enrollment{
@@ -63,5 +65,5 @@ model Enrollment{
     student     User     @relation(fields: [studentId], references: [id])
     course      Course   @relation(fields: [courseId], references: [id])
     enrolledAt  DateTime @default(now()) 
-    enrollmentNo Int 
+    enrollmentNo Int     @unique
 }

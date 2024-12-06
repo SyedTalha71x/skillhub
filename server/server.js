@@ -3,6 +3,7 @@ import { configDotenv } from 'dotenv';
 import cors from 'cors'
 import UserRoutes from './Routes/user-routes.js'
 import CourseRoutes from './Routes/course-routes.js'
+import EnrollmentRoutes from './Routes/enrollment-routes.js'
 
 configDotenv();
 
@@ -15,6 +16,7 @@ app.use(cors())
 
 app.use("/", UserRoutes);
 app.use("/", CourseRoutes);
+app.use("/", EnrollmentRoutes)
 
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server is running on http://localhost:${PORT}`);
