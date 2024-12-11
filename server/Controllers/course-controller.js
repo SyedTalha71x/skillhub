@@ -54,7 +54,7 @@ export const createCourse = async (req, res) => {
     }
 
     try {
-      let { title, description, price, category, thumbnail, syllabus, duration, FlagValidity } =
+      let { title, description, price, category, thumbnail, syllabus, duration, FlagValidity, slug } =
         req.body;
 
       const userId = req.user?.userId;
@@ -103,6 +103,7 @@ export const createCourse = async (req, res) => {
           isPublished: true,
           FlagValidity: newFlagValidity,
           videoUrl: uploadedfiles.join(','),
+          slug
         },
       });
       console.log(addCourse);
@@ -218,10 +219,25 @@ export const deleteCourse = async (req, res) => {
 export const getAllCourses = async (req,res) =>{
   try{
     const getAllCourses = await prisma.course.findMany();
+    
     if(getAllCourses.length === 0){
       return FailureResponse(res, 'Courses not found', null, 400)
     }
     return SuccessResponse(res, 'Successfully fetched all courses', {getAllCourses}, 200)
+  }
+  catch(error){
+    console.log(error);
+    return FailureResponse(res, 'Internal Server Error', null, 500)
+    
+  }
+}
+export const getSingleCourse = async (req,res) =>{
+  try{
+    const {slug} = req.params;
+    const getCourse = await prisma.course.findUnique({where: {slug: slug}})
+    if(getCourse){
+      return SuccessResponse(res, 'Success', {getCourse}, 200)
+    }
   }
   catch(error){
     console.log(error);

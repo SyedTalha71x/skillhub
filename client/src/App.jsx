@@ -38,7 +38,7 @@ function App() {
         <Route path="/courses" element={<Courses />} />
 
         {/* Dynamic Routes  */}
-        <Route path="/course/:id" element={<Course />} />
+        <Route path="/course/:slug" element={<Course />} />
       </Routes>
       {location.pathname !== hideFooterPaths && <Footer />}
     </>

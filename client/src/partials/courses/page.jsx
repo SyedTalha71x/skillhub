@@ -1,10 +1,14 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CloudLogo from "../../../public/a-cloud-guru-logo (1).webp";
 import { SiSimpleanalytics } from "react-icons/si";
 import { CiClock1 } from "react-icons/ci";
 import { CiCalendarDate } from "react-icons/ci";
 import { IoSearchOutline } from "react-icons/io5";
+import { FaDollarSign } from "react-icons/fa";
+import { BiSolidCategoryAlt } from "react-icons/bi";
+
 import {
   Dialog,
   DialogBackdrop,
@@ -25,7 +29,9 @@ import {
   PlusIcon,
   Squares2X2Icon,
 } from "@heroicons/react/20/solid";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useStateManage } from "../../context/StateContext";
 
 const sortOptions = [
   { name: "Most Popular", href: "#", current: true },
@@ -57,30 +63,36 @@ const filters = [
     ],
   },
 ];
-const courses = [
-  {
-    subName: "Hands on Labs",
-    title: "Managing S3 Buckets and Policies with Terraform",
-    Tutor: "Cloud Guru",
-    Skilllevel: "Intermediate",
-    time: 30,
-    Date: new Date().toLocaleDateString(),
-  },
-  {
-    subName: "Hands on Labs",
-    title: "Managing Infrastructure as Code with Ansible",
-    Tutor: "Cloud Guru",
-    Skilllevel: "Advanced",
-    time: 55,
-    Date: new Date().toLocaleDateString(),
-  },
-];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 const Page = () => {
+  const [Data, setData] = useState([]);
+  const navigate = useNavigate();
+  const { BASE_URL } = useStateManage();
+
+  const handleNavigate = (slug) => {
+    console.log(slug);
+
+    navigate(`course/${slug}`);
+  };
+
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const response = await axios.get(`${BASE_URL}/get-all-courses`);
+        setData(response.data.message.getAllCourses);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    if (fetchCourses) {
+      fetchCourses();
+    }
+  }, []);
+
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   return (
     <div className="h-full lg:p-20 md:p-16 sm:p-7 p-7">
@@ -319,58 +331,85 @@ const Page = () => {
                     ))}
                   </form>
 
-                  {/* Product grid */}
                   <div className="lg:col-span-3">
-                    {courses.map((item, index) => {
+                    {Data?.map((item, index) => {
                       return (
-                        <Link  key={index} to={"/course/123"}>
                         <div
-                         
-                          className="border-[1px] mt-3 border-gray-300 rounded-xl lg:p-4 md:p-4 sm:p-3 p-3 hover:border-b-blue-800 transition-all duration-300 cursor-pointer"
+                          key={index}
+                          onClick={() => navigate(`/course/${item.slug}`)}
                         >
-                          <div>
-                            <span className="text-red-600 font-bold text-sm">
-                              {item.subName}
-                            </span>
-                            <div>
-                              <h1 className="text-lg mt-3 font-extrabold text-blue-950">
-                                {item.title}
-                              </h1>
-                            </div>
-                            <p className="mt-4 text-gray-500 font-semibold text-sm">
-                              By {item.Tutor}
-                            </p>
-                            <div className="lg:flex lg:justify-start items-center flex-wrap gap-6 mt-6 text-sm">
-                              <div className="flex gap-1 items-center">
+                          <div className="border-[1px] mt-3 border-gray-300 rounded-xl hover:border-b-blue-800 transition-all duration-300 cursor-pointer">
+                            <div className="flex flex-col lg:flex-row items-start lg:items-center">
+                              <div className="lg:w-2/3 p-4">
+                                <span className="text-red-600 font-bold text-sm">
+                                  {item.subName}
+                                </span>
                                 <div>
-                                  <SiSimpleanalytics className="text-lg" />
+                                  <h1 className="text-lg mt-3 font-extrabold text-blue-950">
+                                    {item.title}
+                                  </h1>
                                 </div>
-                                <div className="text-sm text-gray-600">
-                                  {item.Skilllevel}
+                                <div>
+                                  <p className="text-gray-600 text-[13px] mt-2">
+                                    {item.description.slice(0, 200)}...
+                                  </p>
+                                </div>
+                                <p className="mt-4 flex items-center text-gray-500 font-semibold">
+                                  <div>
+                                    <FaDollarSign />
+                                  </div>
+                                  <div className="text-sm flex gap-1">
+                                    {item.price}
+                                  </div>
+                                </p>
+                                <div className="lg:flex lg:justify-start items-center flex-wrap gap-6 mt-6 text-sm">
+                                  <div className="flex gap-1 items-center">
+                                    <div>
+                                      <BiSolidCategoryAlt className="text-lg" />
+                                    </div>
+                                    <div className="text-sm text-gray-600">
+                                      {item.category}
+                                    </div>
+                                  </div>
+                                  <div className="flex gap-1 items-center">
+                                    <div>
+                                      <CiClock1 className="text-lg" />
+                                    </div>
+                                    <div className="text-sm text-gray-600">
+                                      {item.duration > 60
+                                        ? `${item.duration} hour`
+                                        : `${item.duration} min`}
+                                    </div>
+                                  </div>
+                                  <div className="flex gap-1 items-center">
+                                    <div>
+                                      <CiCalendarDate className="text-lg" />
+                                    </div>
+                                    <div className="text-sm text-gray-600">
+                                      {new Date(
+                                        item.createdAt
+                                      ).toLocaleDateString()}
+                                    </div>
+                                  </div>
                                 </div>
                               </div>
-                              <div className="flex gap-1 items-center">
-                                <div>
-                                  <CiClock1 className="text-lg" />
+
+                              {item.thumbnail && (
+                                <div className="lg:w-1/3 p-4">
+                                  <img
+                                    src={item.thumbnail}
+                                    alt={item.title}
+                                    className="w-full h-auto object-cover rounded-lg"
+                                  />
                                 </div>
-                                <div className="text-sm text-gray-600">
-                                  {item.time > 60 ? "min" : "hour"}
-                                </div>
-                              </div>
-                              <div className="flex gap-1 items-center">
-                                <div>
-                                  <CiCalendarDate className="text-lg" />
-                                </div>
-                                <div className="text-sm text-gray-600">
-                                  {item.Date}
-                                </div>
-                              </div>
+                              )}
                             </div>
                           </div>
                         </div>
-                        </Link>
                       );
                     })}
+
+                    {/* Pagination Buttons */}
                     <div className="flex items-center justify-between mt-4">
                       <button className="py-2 px-6 hover:bg-purple-800 transition-all duration-500 ease-in-out rounded-md bg-purple-600 text-white text-sm font-semibold">
                         Previous
