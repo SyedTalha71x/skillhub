@@ -236,7 +236,10 @@ export const getSingleCourse = async (req,res) =>{
     const {slug} = req.params;
     const getCourse = await prisma.course.findUnique({where: {slug: slug}})
     if(getCourse){
-      return SuccessResponse(res, 'Success', {getCourse}, 200)
+      const newData = Object.keys(getCourse).map((key)=>({
+       [key]: getCourse[key]
+      }))
+      return SuccessResponse(res, 'Success', {newData}, 200)
     }
   }
   catch(error){
