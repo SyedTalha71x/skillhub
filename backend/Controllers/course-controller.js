@@ -5,6 +5,8 @@ import { GetObjectCommand, PutObjectCommand, S3Client } from "@aws-sdk/client-s3
 import { v4 as uuidv4 } from "uuid";
 import { configDotenv } from "dotenv";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import getVideoDurationInSeconds from "get-video-duration";
+
 configDotenv();
 
 const s3client = new S3Client({
@@ -54,7 +56,7 @@ export const createCourse = async (req, res) => {
     }
 
     try {
-      let { title, description, price, category, thumbnail, syllabus, duration, FlagValidity, slug } =
+      let { title, description, price, category, thumbnail, syllabus, duration, FlagValidity, slug, courselvl } =
         req.body;
 
       const userId = req.user?.userId;
@@ -103,7 +105,8 @@ export const createCourse = async (req, res) => {
           isPublished: true,
           FlagValidity: newFlagValidity,
           videoUrl: uploadedfiles.join(','),
-          slug
+          slug,
+          courselvl
         },
       });
       console.log(addCourse);
@@ -142,7 +145,7 @@ export const updateCourse = async (req, res) => {
       thumbnail,
       syllabus,
       duration,
-      FlagValidity
+      FlagValidity,courselvl
     } = req.body;
 
     let newPayload = {};
@@ -154,6 +157,8 @@ export const updateCourse = async (req, res) => {
     if (syllabus) newPayload.syllabus = syllabus;
     if (duration) newPayload.duration = duration;
     if(FlagValidity) newPayload.FlagValidity = FlagValidity;
+    if(courselvl) newPayload.courselvl = courselvl;
+
 
     const role_to_user = await prisma.role_To_User.findMany({
       where: { userId: userId },
@@ -235,6 +240,7 @@ export const getSingleCourse = async (req,res) =>{
   try{
     const {slug} = req.params;
     const getCourse = await prisma.course.findUnique({where: {slug: slug}})
+    
     if(getCourse){
       const newData = Object.keys(getCourse).map((key)=>({
        [key]: getCourse[key]

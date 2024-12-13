@@ -80,16 +80,15 @@ const Page = () => {
                 </p>
 
                 <button className="mb-4 w-full rounded-full bg-pink-600 px-6 py-3 text-center font-semibold text-white hover:bg-pink-700">
-                  Get started
+                  Enroll Now
                 </button>
-
                 <p className="mb-8 text-center text-gray-600">
-                  US${Data.price} per month after 10 day trial
+                  {Data.FlagValidity === -1 ? `This is a lifetime course for US$ ${Data.price}`: `US$ ${Data.price} for ${Data.FlagValidity} months`}
                 </p>
 
                 <div>
-                  <h3 className="mb-4 text-lg font-semibold">
-                    Your 10 day Premium free trial includes
+                  <h3 className="mb-4 text-lg text-center font-semibold">
+                   Start your journey today, enroll now!
                   </h3>
 
                   <div className="mb-6">
@@ -258,16 +257,7 @@ const Page = () => {
                 <div className="flex justify-between items-center">
                   <span>Level</span>
                   <span className="flex items-center">
-                    Beginner
-                    <svg
-                      className="w-4 h-4 ml-2"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                    >
-                      <path d="M5 9l7 7 7-7" />
-                    </svg>
+                    {Data.courselvl}
                   </span>
                 </div>
                 <div className="flex justify-between items-center">

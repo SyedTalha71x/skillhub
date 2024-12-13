@@ -57,6 +57,7 @@ model Course {
   videoUrl    String
   FlagValidity Int      @default(-1)
   slug        String    @unique
+  courselvl   String     
 }
 
 model Enrollment{
