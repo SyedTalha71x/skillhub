@@ -17,6 +17,8 @@ import DetailBlogs from "./partials/blogs/detailblogs/page";
 import CloudGuru from "./partials/cloudguru/page";
 import Courses from "./partials/courses/page";
 import Course from "./routes/course/page";
+import Success from './purchasemode/success/page'
+import Cancel from './purchasemode/cancel/page'
 
 function App() {
   const location = useLocation();
@@ -36,6 +38,8 @@ function App() {
         <Route path="/moreblogs" element={<DetailBlogs />} />
         <Route path="/cloudguru" element={<CloudGuru />} />
         <Route path="/courses" element={<Courses />} />
+        <Route path="/success" element={<Success />} />
+        <Route path="/cancel" element={<Cancel />} />
 
         {/* Dynamic Routes  */}
         <Route path="/course/:slug" element={<Course />} />

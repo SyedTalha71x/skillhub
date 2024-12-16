@@ -68,4 +68,7 @@ model Enrollment{
     course      Course   @relation(fields: [courseId], references: [id])
     enrolledAt  DateTime @default(now()) 
     enrollmentNo Int     @unique
+    paymentId   String?
+    status      String   @default("pending")
+    expiryDate  DateTime? 
 }

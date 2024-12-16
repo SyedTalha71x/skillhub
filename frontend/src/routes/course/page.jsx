@@ -5,6 +5,10 @@ import { useParams } from "react-router-dom";
 import { useStateManage } from "../../context/StateContext";
 import axios from "axios";
 import { FaArrowAltCircleRight } from "react-icons/fa";
+import { loadStripe } from "@stripe/stripe-js";
+
+
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY)
 
 
 const Page = () => {
@@ -27,13 +31,33 @@ const Page = () => {
           {}
         );
         setData(combinedData);
-        console.log(combinedData);
       } catch (error) {
         console.log(error);
       }
     };
     singleFunction();
   }, [BASE_URL, slug]);
+
+  const handlePurchase = async (courseId) =>{
+    try{
+        const token = localStorage.getItem('AuthToken');
+        const stripe = await stripePromise;
+
+        const response = await axios.post(`${BASE_URL}/enroll-now`, {
+          courseId
+        }, {headers:{
+          Authorization: `Bearer ${token}`
+        }})
+        console.log(response.data.message.session.id );
+      
+        const result = await stripe.redirectToCheckout({ sessionId: response.data.message.session.id });
+        if (result.error) alert('Failed to redirect to checkout');
+    }
+    catch(error){
+      console.log(error);
+      
+    };
+  }
 
   return (
     <div className="h-full bg-[#1a1833] text-white p-6 pb-14">
@@ -79,7 +103,7 @@ const Page = () => {
                   popular topics.
                 </p>
 
-                <button className="mb-4 w-full rounded-full bg-pink-600 px-6 py-3 text-center font-semibold text-white hover:bg-pink-700">
+                <button onClick={()=>handlePurchase(Data.id)} className="mb-4 w-full rounded-full bg-pink-600 px-6 py-3 text-center font-semibold text-white hover:bg-pink-700">
                   Enroll Now
                 </button>
                 <p className="mb-8 text-center text-gray-600">
