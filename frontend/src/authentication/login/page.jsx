@@ -1,13 +1,16 @@
 /* eslint-disable react/no-unescaped-entities */
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useStateManage } from "../../context/StateContext";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 const Page = () => {
   const {BASE_URL} = useStateManage();
+  const [showPassword, setshowPassword] = useState(false)
+
   const [formData, setFormData] = React.useState({
     email: "",
     password: "",
@@ -74,7 +77,7 @@ const Page = () => {
                 />
               </div>
 
-              <div>
+              <div className="relative">
                 <label
                   htmlFor="password"
                   className="block text-sm text-white mb-2"
@@ -84,10 +87,16 @@ const Page = () => {
                 <input
                   name="password"
                   onChange={handleChange}
-                  type="password"
+                  type={showPassword ? 'text':'password'}
                   id="password"
                   className="w-full px-3 py-2 rounded bg-[#252640] border border-[#373860] text-white focus:outline-none focus:border-[#6366f1]"
                 />
+                 <div
+                className="absolute right-3 top-[38px] text-xl cursor-pointer text-white"
+                onClick={() => setshowPassword((prev) => !prev)}
+              >
+                {showPassword ? <AiOutlineEyeInvisible className="cursor-pointer" /> : <AiOutlineEye className="cursor-pointer"/>}
+              </div>
               </div>
 
               <button

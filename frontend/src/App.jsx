@@ -19,13 +19,15 @@ import Courses from "./partials/courses/page";
 import Course from "./routes/course/page";
 import Success from './purchasemode/success/page'
 import Cancel from './purchasemode/cancel/page'
+import Dashboard from './dashboard/page'
 
 function App() {
   const location = useLocation();
-  const hideFooterPaths = ["login", "register"];
+  
   return (
     <>
-      <Navbar />
+      {location.pathname !== "/dashboard" && <Navbar />}
+
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/skills" element={<SkillsPage />} />
@@ -41,10 +43,15 @@ function App() {
         <Route path="/success" element={<Success />} />
         <Route path="/cancel" element={<Cancel />} />
 
-        {/* Dynamic Routes  */}
+        {/* Dynamic Routes */}
         <Route path="/course/:slug" element={<Course />} />
+
+        {/* Dashboard Route */}
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
-      {location.pathname !== hideFooterPaths && <Footer />}
+
+      {/* Conditional rendering of Footer, excluding /dashboard */}
+      {location.pathname !== "/dashboard" && <Footer />}
     </>
   );
 }

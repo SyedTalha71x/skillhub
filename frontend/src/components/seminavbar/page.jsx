@@ -13,11 +13,17 @@ const navItems = [
 const Page = () => {
   const [isOpen, setIsOpen] = useState(false);
 
+  const logout = () =>{
+    localStorage.removeItem('AuthToken');
+    setTimeout(() => {
+      window.location.href = 'http://localhost:5173/';
+    }, 1000);
+  }
+
   return (
     <nav className="bg-[rgb(20,20,46)] text-white z-[1000] cursor-pointer relative">
       <div className="mx-auto lg:w-[90%] md:w-[90%] sm:w-full w-full px-4">
         <div className="flex h-16 items-center justify-between">
-          {/* Left section: Navigation items */}
           <div className="hidden md:flex md:space-x-6">
             {navItems.map((item) => (
               <Link
@@ -45,15 +51,29 @@ const Page = () => {
             </button>
           </div>
 
-          {/* Right section: Sign in button */}
-          <div className="hidden md:flex">
+          {/* Right section: Sign in and dashboard buttons */}
+          <div className="hidden md:flex space-x-4">
             <div className="relative">
-              <Link to={"/login"}>
+              <Link to="/dashboard">
                 <button
                   className="flex items-center space-x-2 rounded-full border-2 border-blue-800 hover:bg-blue-900 bg-blue-800 px-8 py-1.5 transition-all duration-500 text-sm"
                   aria-haspopup="true"
                 >
-                  <span>Sign in</span>
+                  <span>Dashboard</span>
+                </button>
+              </Link>
+            </div>
+            <div className="relative">
+              <Link to="/login">
+                <button
+                  className="flex items-center space-x-2 rounded-full border-2 border-blue-800 hover:bg-blue-900 bg-blue-800 px-8 py-1.5 transition-all duration-500 text-sm"
+                  aria-haspopup="true"
+                >
+                  {localStorage.getItem('AuthToken') ? (
+                    <span onClick={logout}>Logout</span>
+                  ) : (
+                    <span>Sign in</span>
+                  )}
                 </button>
               </Link>
             </div>
@@ -87,6 +107,12 @@ const Page = () => {
               className="block rounded-full border-2 border-blue-800 hover:bg-blue-900 bg-blue-800 px-4 py-1.5 text-center text-sm transition-all duration-500"
             >
               Sign in
+            </Link>
+            <Link
+              to="/login"
+              className="block rounded-full border-2 border-blue-800 hover:bg-blue-900 bg-blue-800 px-4 py-1.5 text-center text-sm transition-all duration-500"
+            >
+               Dashboard
             </Link>
           </div>
         </div>

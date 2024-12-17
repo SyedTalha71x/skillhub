@@ -1,25 +1,29 @@
 import multer from "multer";
 import { SuccessResponse, FailureResponse } from "../Helper/helper.js";
 import prisma from "../prismaClient/client.js";
-import { GetObjectCommand, PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import {
+  GetObjectCommand,
+  PutObjectCommand,
+  S3Client,
+} from "@aws-sdk/client-s3";
 import { v4 as uuidv4 } from "uuid";
 import { configDotenv } from "dotenv";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import getVideoDurationInSeconds from "get-video-duration";
+import { object } from "zod";
 
 configDotenv();
 
 const s3client = new S3Client({
   region: "us-east-1",
-  credentials:{
+  credentials: {
     accessKeyId: process.env.ACCESS_KEY_ID,
-    secretAccessKey: process.env.SECRET_ACCESS_KEY
-  }
-})
+    secretAccessKey: process.env.SECRET_ACCESS_KEY,
+  },
+});
 
-const uploadVideoToS3 = async (fileBuffer, fileName, contentType) =>{
-
-  const bucketName = process.env.BUCKET_NAME
+const uploadVideoToS3 = async (fileBuffer, fileName, contentType) => {
+  const bucketName = process.env.BUCKET_NAME;
   if (!bucketName) throw new Error("S3 bucket name is not configured");
 
   const uniqueFileName = `videos/${uuidv4()}-${fileName}`;
@@ -33,7 +37,7 @@ const uploadVideoToS3 = async (fileBuffer, fileName, contentType) =>{
 
   await s3client.send(new PutObjectCommand(params));
   return uniqueFileName;
-}
+};
 const generatePreSignedURL = async (key) => {
   const bucketName = process.env.BUCKET_NAME;
   const params = {
@@ -44,9 +48,9 @@ const generatePreSignedURL = async (key) => {
     expiresIn: 3600,
   });
   return url;
-}
+};
 
-const upload = multer({storage: multer.memoryStorage()}).array("videos", 10)
+const upload = multer({ storage: multer.memoryStorage() }).array("videos", 10);
 
 export const createCourse = async (req, res) => {
   upload(req, res, async (err) => {
@@ -56,8 +60,18 @@ export const createCourse = async (req, res) => {
     }
 
     try {
-      let { title, description, price, category, thumbnail, syllabus, duration, FlagValidity, slug, courselvl } =
-        req.body;
+      let {
+        title,
+        description,
+        price,
+        category,
+        thumbnail,
+        syllabus,
+        duration,
+        FlagValidity,
+        slug,
+        courselvl,
+      } = req.body;
 
       const userId = req.user?.userId;
       if (!userId) {
@@ -77,20 +91,20 @@ export const createCourse = async (req, res) => {
           400
         );
       }
-      let newFlagValidity ;
-      if(FlagValidity){
+      let newFlagValidity;
+      if (FlagValidity) {
         newFlagValidity = FlagValidity;
       }
 
       const uploadedfiles = [];
-      for(const file of req.files){
-      const videoKey = await uploadVideoToS3(
-        file.buffer,
-        file.originalname,
-        file.mimetype
-      );
-      uploadedfiles.push(videoKey)
-    }
+      for (const file of req.files) {
+        const videoKey = await uploadVideoToS3(
+          file.buffer,
+          file.originalname,
+          file.mimetype
+        );
+        uploadedfiles.push(videoKey);
+      }
 
       const addCourse = await prisma.course.create({
         data: {
@@ -100,22 +114,22 @@ export const createCourse = async (req, res) => {
           category,
           instructorId: userId,
           thumbnail,
-          syllabus: typeof syllabus === "string" ? JSON.parse(syllabus) : syllabus,
+          syllabus:
+            typeof syllabus === "string" ? JSON.parse(syllabus) : syllabus,
           duration: parseInt(duration),
           isPublished: true,
           FlagValidity: newFlagValidity,
-          videoUrl: uploadedfiles.join(','),
+          videoUrl: uploadedfiles.join(","),
           slug,
-          courselvl
+          courselvl,
         },
       });
       console.log(addCourse);
       console.log(addCourse.FlagValidity);
-      
 
       const videoUrls = await Promise.all(
-        uploadedfiles.map((key)=> generatePreSignedURL(key))
-      )
+        uploadedfiles.map((key) => generatePreSignedURL(key))
+      );
 
       return SuccessResponse(
         res,
@@ -128,7 +142,7 @@ export const createCourse = async (req, res) => {
       return FailureResponse(res, "Internal Server Error", null, 500);
     }
   });
-}
+};
 export const updateCourse = async (req, res) => {
   try {
     const id = req.params.id;
@@ -145,7 +159,8 @@ export const updateCourse = async (req, res) => {
       thumbnail,
       syllabus,
       duration,
-      FlagValidity,courselvl
+      FlagValidity,
+      courselvl,
     } = req.body;
 
     let newPayload = {};
@@ -156,9 +171,8 @@ export const updateCourse = async (req, res) => {
     if (thumbnail) newPayload.thumbnail = thumbnail;
     if (syllabus) newPayload.syllabus = syllabus;
     if (duration) newPayload.duration = duration;
-    if(FlagValidity) newPayload.FlagValidity = FlagValidity;
-    if(courselvl) newPayload.courselvl = courselvl;
-
+    if (FlagValidity) newPayload.FlagValidity = FlagValidity;
+    if (courselvl) newPayload.courselvl = courselvl;
 
     const role_to_user = await prisma.role_To_User.findMany({
       where: { userId: userId },
@@ -221,36 +235,44 @@ export const deleteCourse = async (req, res) => {
     return FailureResponse(res, "Internal Server Error", null, 500);
   }
 };
-export const getAllCourses = async (req,res) =>{
-  try{
+export const getAllCourses = async (req, res) => {
+  try {
     const getAllCourses = await prisma.course.findMany();
-    
-    if(getAllCourses.length === 0){
-      return FailureResponse(res, 'Courses not found', null, 400)
+
+    if (getAllCourses.length === 0) {
+      return FailureResponse(res, "Courses not found", null, 400);
     }
-    return SuccessResponse(res, 'Successfully fetched all courses', {getAllCourses}, 200)
-  }
-  catch(error){
+    return SuccessResponse(
+      res,
+      "Successfully fetched all courses",
+      { getAllCourses },
+      200
+    );
+  } catch (error) {
     console.log(error);
-    return FailureResponse(res, 'Internal Server Error', null, 500)
-    
+    return FailureResponse(res, "Internal Server Error", null, 500);
   }
-}
-export const getSingleCourse = async (req,res) =>{
-  try{
-    const {slug} = req.params;
-    const getCourse = await prisma.course.findUnique({where: {slug: slug}})
-    
-    if(getCourse){
-      const newData = Object.keys(getCourse).map((key)=>({
-       [key]: getCourse[key]
-      }))
-      return SuccessResponse(res, 'Success', {newData}, 200)
-    }
-  }
-  catch(error){
+};
+export const getSingleCourse = async (req, res) => {
+  try {
+    const { slug } = req.params;
+    const getCourse = await prisma.course.findUnique({ where: { slug: slug } });
+
+    const getUser = await prisma.user.findUnique({
+      where: { id: getCourse.instructorId },
+    });
+    console.log(getUser);
+
+    const newData = {
+      ...Object.keys(getCourse).reduce((acc, key) => {
+        acc[key] = getCourse[key];
+        return acc;
+      }, {}),
+      instructorName: getUser.username,
+    };
+    return SuccessResponse(res, "Success", { newData }, 200);
+  } catch (error) {
     console.log(error);
-    return FailureResponse(res, 'Internal Server Error', null, 500)
-    
+    return FailureResponse(res, "Internal Server Error", null, 500);
   }
-}
+};

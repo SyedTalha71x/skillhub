@@ -1,12 +1,18 @@
-import React from "react";
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-undef */
+import React, { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useStateManage } from "../../context/StateContext";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 const Page = () => {
   const { BASE_URL } = useStateManage();
+  const [showPassword, setshowPassword] = useState(false)
+  const [showconfirmPassword, setshowconfirmPassword] = useState(false)
+  const [confirmPassword, setconfirmPassword] = useState('')
   const [formData, setFormData] = React.useState({
     username:"",
     email: "",
@@ -80,33 +86,48 @@ const Page = () => {
               />
             </div>
 
-            <div>
+            <div className="relative">
               <label
+              onClick={()=>{setshowPassword(prev)}}
                 htmlFor="password"
                 className="block text-sm text-white mb-2"
               >
                 Password
               </label>
-              <input
+              <input 
                 onChange={handleChange}
                 name="password"
-                type="password"
+                type={showPassword ? 'text':'password'}
+                
                 id="password"
                 className="w-full px-3 py-2 rounded bg-[#252640] border border-[#373860] text-white focus:outline-none focus:border-[#6366f1]"
               />
+               <div
+                className="absolute right-3 top-[38px] text-xl cursor-pointer text-white"
+                onClick={() => setshowPassword((prev) => !prev)}
+              >
+                {showPassword ? <AiOutlineEyeInvisible className="cursor-pointer" /> : <AiOutlineEye className="cursor-pointer"/>}
+              </div>
             </div>
-            <div>
+            <div className="relative">
               <label
-                htmlFor="confirmpassword"
+                htmlFor="password"
                 className="block text-sm text-white mb-2"
               >
                 Confirm Password
               </label>
               <input
-                type="confirmpassword"
-                id="confirmpassword"
+                type={showconfirmPassword ? 'text':'password'}
+                id="password"
+                onChange={(e)=>{setconfirmPassword(e.target.value)}}
                 className="w-full px-3 py-2 rounded bg-[#252640] border border-[#373860] text-white focus:outline-none focus:border-[#6366f1]"
               />
+               <div
+                className="absolute right-3 top-[38px] text-xl cursor-pointer text-white"
+                onClick={() => setshowconfirmPassword((prev) => !prev)}
+              >
+                {showconfirmPassword ? <AiOutlineEyeInvisible className="cursor-pointer" /> : <AiOutlineEye className="cursor-pointer"/>}
+              </div>
             </div>
 
             <button

@@ -24,13 +24,13 @@ const Page = () => {
           `${BASE_URL}/get-single-course/${slug}`
         );
 
-        const combinedData = response.data.message.newData.reduce(
-          (acc, curr) => {
-            return { ...acc, ...curr };
-          },
-          {}
-        );
-        setData(combinedData);
+        // const combinedData = response.data.message.newData.reduce(
+        //   (acc, curr) => {
+        //     return { ...acc, ...curr };
+        //   },
+        //   {}
+        // );
+        setData(response.data.message.newData);
       } catch (error) {
         console.log(error);
       }
@@ -78,7 +78,7 @@ const Page = () => {
                 {Data.title}
               </h1>
 
-              <p className="mb-6 text-gray-400">by Wayne Hoggett</p>
+              <p className="mb-6 text-gray-400">by {Data.instructorName}</p>
 
               <p className="mb-8 text-lg text-gray-300">
                 As companies grow, they develop, build, acquire, and inherit new
