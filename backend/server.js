@@ -19,5 +19,6 @@ app.use("/", CourseRoutes);
 app.use("/", EnrollmentRoutes)
 
 app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+    console.log('Server running on port 4000');
 });
+
