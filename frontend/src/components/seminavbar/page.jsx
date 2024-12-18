@@ -51,18 +51,7 @@ const Page = () => {
             </button>
           </div>
 
-          {/* Right section: Sign in and dashboard buttons */}
           <div className="hidden md:flex space-x-4">
-            <div className="relative">
-              <Link to="/dashboard">
-                <button
-                  className="flex items-center space-x-2 rounded-full border-2 border-blue-800 hover:bg-blue-900 bg-blue-800 px-8 py-1.5 transition-all duration-500 text-sm"
-                  aria-haspopup="true"
-                >
-                  <span>Dashboard</span>
-                </button>
-              </Link>
-            </div>
             <div className="relative">
               <Link to="/login">
                 <button
@@ -80,7 +69,6 @@ const Page = () => {
           </div>
         </div>
 
-        {/* Mobile menu */}
         <div
           className={`fixed top-0 left-0 h-full w-3/4 bg-[rgb(20,20,46)] text-white transform transition-transform duration-300 ease-in-out ${
             isOpen ? 'translate-x-0' : '-translate-x-full'
@@ -107,12 +95,6 @@ const Page = () => {
               className="block rounded-full border-2 border-blue-800 hover:bg-blue-900 bg-blue-800 px-4 py-1.5 text-center text-sm transition-all duration-500"
             >
               Sign in
-            </Link>
-            <Link
-              to="/login"
-              className="block rounded-full border-2 border-blue-800 hover:bg-blue-900 bg-blue-800 px-4 py-1.5 text-center text-sm transition-all duration-500"
-            >
-               Dashboard
             </Link>
           </div>
         </div>

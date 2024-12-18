@@ -21,12 +21,15 @@ import Success from './purchasemode/success/page'
 import Cancel from './purchasemode/cancel/page'
 import Dashboard from './dashboard/page'
 
+import Users from "./dashboard/dashboardPartials/users";
+
 function App() {
   const location = useLocation();
+  const dashboardPaths = location.pathname.startsWith("/dashboard")
   
   return (
     <>
-      {location.pathname !== "/dashboard" && <Navbar />}
+      {!dashboardPaths && <Navbar />}
 
       <Routes>
         <Route path="/" element={<Home />} />
@@ -47,11 +50,12 @@ function App() {
         <Route path="/course/:slug" element={<Course />} />
 
         {/* Dashboard Route */}
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard" element={<Dashboard />}>
+ <Route path="users" element={<Users />}/>
+        </Route>
       </Routes>
 
-      {/* Conditional rendering of Footer, excluding /dashboard */}
-      {location.pathname !== "/dashboard" && <Footer />}
+      {!dashboardPaths && <Footer />}
     </>
   );
 }

@@ -1,21 +1,27 @@
 /* eslint-disable no-unused-vars */
-import React from 'react';
+import React from "react";
+import { IoIosNotifications } from "react-icons/io";
 
 const Page = () => {
   return (
     <header className="bg-white shadow-md">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center py-6">
-          <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-          <div className="flex items-center">
-            <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
-              New Project
-            </button>
-            <div className="ml-4 relative">
+      <div className="">
+        <div className="flex justify-between items-center p-2">
+          <div></div>
+
+          <div className="flex items-center gap-1.5 mr-2">
+            <div className="relative mt-1 ">
+              <div className="absolute -top-2 right-0.5 bg-orange-800 px-1.5 text-sm text-white font-bold rounded-full">
+                3
+              </div>
+              <IoIosNotifications className="text-3xl text-orange-600 mr-2 cursor-pointer" />
+            </div>
+
+            <div>
               <img
-                className="h-8 w-8 rounded-full"
-                src="/placeholder.svg?height=32&width=32"
-                alt="User avatar"
+                className="h-10 w-10 object-cover rounded-full"
+                src="https://e7.pngegg.com/pngimages/799/987/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper-thumbnail.png"
+                alt=""
               />
             </div>
           </div>
@@ -26,4 +32,3 @@ const Page = () => {
 };
 
 export default Page;
-
