@@ -1,10 +1,12 @@
 /* eslint-disable no-unused-vars */
 import React from "react";
 import { IoIosNotifications } from "react-icons/io";
+import { Link } from "react-router-dom";
 
 const Page = () => {
   return (
-    <header className="bg-white shadow-md">
+
+    <header className="bg-slate-100 shadow-xl">
       <div className="">
         <div className="flex justify-between items-center p-2">
           <div></div>
@@ -24,6 +26,9 @@ const Page = () => {
                 alt=""
               />
             </div>
+            <Link to={"/"} className="ml-1.5">
+              <button className="py-2 px-6 rounded-md bg-purple-600 text-white font-bold">Back</button>
+            </Link>
           </div>
         </div>
       </div>

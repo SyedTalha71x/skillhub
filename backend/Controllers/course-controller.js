@@ -270,6 +270,7 @@ export const getSingleCourse = async (req, res) => {
       }, {}),
       instructorName: getUser.username,
     };
+    
     return SuccessResponse(res, "Success", { newData }, 200);
   } catch (error) {
     console.log(error);

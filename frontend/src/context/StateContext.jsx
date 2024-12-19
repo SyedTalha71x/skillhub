@@ -4,7 +4,7 @@ import { createContext, useContext } from "react";
 const StateContext = createContext();
 
 export const StateProvider = ({ children }) => {
-  const BASE_URL = "http://localhost:4000";
+  const BASE_URL = "http://localhost:7000";
 
   return (
     <StateContext.Provider value={{ BASE_URL }}>

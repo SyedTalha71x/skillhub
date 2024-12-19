@@ -73,11 +73,6 @@ const Page = () => {
   const navigate = useNavigate();
   const { BASE_URL } = useStateManage();
 
-  const handleNavigate = (slug) => {
-    console.log(slug);
-
-    navigate(`course/${slug}`);
-  };
 
   useEffect(() => {
     const fetchCourses = async () => {

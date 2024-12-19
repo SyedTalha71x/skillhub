@@ -9,7 +9,7 @@ configDotenv();
 
 const app = express();
 
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 7000;
 
 app.use(express.json());
 app.use(cors())
@@ -18,7 +18,11 @@ app.use("/", UserRoutes);
 app.use("/", CourseRoutes);
 app.use("/", EnrollmentRoutes)
 
-app.listen(PORT, '0.0.0.0', () => {
-    console.log('Server running on port 4000');
+app.use('/users', (req,res)=>{
+    res.send({msg: ' hello worldd'})
+})
+
+app.listen(PORT, () => {
+    console.log(`http://localhost:${PORT}`);
 });
 

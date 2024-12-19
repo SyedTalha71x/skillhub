@@ -21,43 +21,44 @@ const Sidebar = () => {
 
   return (
     <>
-      {/* Hamburger Button */}
       <button
         onClick={toggleSidebar}
         className="md:hidden fixed top-2 left-2 z-50 bg-gray-800 text-white p-2 rounded-md shadow-lg"
       >
-        {isOpen === false && <IoMenu className="text-2xl" />}
+        {!isOpen && <IoMenu className="text-2xl" />}
       </button>
 
-      <aside
-        className={`fixed top-0 left-0 z-40 bg-gray-800 text-white w-64 h-full p-4 transform ${
-          isOpen ? 'translate-x-0' : '-translate-x-full'
-        } transition-transform duration-300 md:translate-x-0`}
-      >
-        <button
-    onClick={toggleSidebar}
-    className="absolute top-2 right-2 text-white bg-gray-700 p-2 rounded-full hover:bg-gray-600 md:hidden"
-  >
-    <IoClose className="text-2xl" />
-  </button>
+      <div className={`
+         fixed inset-y-0 left-0 z-40 transform duration-500 ease-in-out
+        ${isOpen ? 'translate-x-0' : '-translate-x-full'}
+        md:translate-x-0 md:static md:inset-0
+      `}>
+        <aside className="bg-slate-100 shadow-xl text-black w-64 h-full p-4">
+          <button
+            onClick={toggleSidebar}
+            className="absolute top-2 right-2 text-white overflow-hidden bg-gray-700 p-2 rounded-full hover:bg-gray-600 md:hidden"
+          >
+            <IoClose className="text-2xl" />
+          </button>
 
-        <nav className="mt-12">
-          <ul>
-            {menuItems.map((item) => (
-              <li key={item.name} className="mb-4">
-                <Link
-                  to={item.href}
-                  className="flex items-center p-2 rounded-lg hover:bg-gray-700 transition-colors duration-200"
-                  onClick={() => setIsOpen(false)}
-                >
-                  <span className="mr-3 text-lg">{item.icon}</span>
-                  <span>{item.name}</span>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      </aside>
+          <nav className="mt-12">
+            <ul>
+              {menuItems.map((item) => (
+                <li key={item.name} className="mb-4">
+                  <Link
+                    to={item.href}
+                    className="flex items-center p-2 rounded-lg hover:bg-gray-700 hover:text-white transition-colors duration-200"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    <span className="mr-3 text-sm">{item.icon}</span>
+                    <span className='text-sm'>{item.name}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </aside>
+      </div>
 
       {isOpen && (
         <div
