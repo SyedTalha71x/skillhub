@@ -137,7 +137,7 @@ const Dashboard = () => {
       key: "instructorID",
     },
     {
-      title: "Email",
+      title: "Instructor Email",
       dataIndex: "instructorEmail",
       key: "instructorEmail",
     },
@@ -179,7 +179,7 @@ const Dashboard = () => {
 
       <div>
         <h2 className="text-2xl font-bold text-gray-800 mb-4">
-          All Instructors
+          Enrolled Instructors
         </h2>
         <Table
           dataSource={InstructorData}
