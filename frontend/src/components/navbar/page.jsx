@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Layout, Menu, Drawer } from "antd";
 import { X } from "lucide-react";
 import {
@@ -57,6 +57,7 @@ const GlobalStyle = createGlobalStyle`
 const { Header } = Layout;
 
 const Navbar = () => {
+  const [UserRole, setUserRole] = useState("");
   const [visible, setVisible] = useState(false);
   const [searchVisible, setSearchVisible] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -91,10 +92,16 @@ const Navbar = () => {
     setVisible(false);
   };
 
+  useEffect(() => {
+    const checkRole = localStorage.getItem("UserRole");
+    if (checkRole) {
+      setUserRole(checkRole || "");
+    }
+  }, []);
+
   const toggleSearch = () => {
     setSearchVisible(!searchVisible);
     if (searchVisible) {
-      // Reset the input when closing
       const input = document.querySelector('input[type="text"]');
       if (input) input.value = "";
     }
@@ -199,11 +206,17 @@ const Navbar = () => {
       key: "contact-sales",
       label: (
         <button className="w-full text-left px-4 py-2 text-sm font-semibold text-white border-2 border-blue-700 rounded-xl transition-all duration-500">
-          <div onClick={()=>{setIsOpen(true)}}>Contact Sales</div>
+          <div
+            onClick={() => {
+              setIsOpen(true);
+            }}
+          >
+            Contact Sales
+          </div>
         </button>
       ),
     },
-    {
+    UserRole === "Admin" && {
       key: "dashboard",
       label: (
         <button className="w-full text-left px-4 py-2 text-sm font-semibold text-white bg-[#EC008C]  rounded-xl transition-all duration-300">
@@ -255,11 +268,19 @@ const Navbar = () => {
               <span className="sr-only">Search</span>
             </button>
             <button className="hidden md:inline-flex items-center px-4 py-2 text-sm border-2 border-blue-700 font-semibold rounded-xl text-white hover:bg-purple-600 transition-all duration-500">
-              <div onClick={()=>{setIsOpen(true)}}>Contact Sales</div>
+              <div
+                onClick={() => {
+                  setIsOpen(true);
+                }}
+              >
+                Contact Sales
+              </div>
             </button>
-            <button className="hidden md:inline-flex items-center px-4 py-2 text-sm font-semibold rounded-xl text-white bg-[#EC008C] transition-all duration-300">
-              <Link to="/dashboard">Dashboard</Link>
-            </button>
+            {UserRole === "Admin" && (
+              <button className="hidden md:inline-flex items-center px-4 py-2 text-sm font-semibold rounded-xl text-white bg-[#EC008C] transition-all duration-300">
+                <Link to="/dashboard">Dashboard</Link>
+              </button>
+            )}
           </div>
         </div>
 

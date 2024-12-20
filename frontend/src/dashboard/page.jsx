@@ -5,7 +5,6 @@ import Sidebar from "./partials /sidebar";
 import { Outlet } from "react-router-dom";
 
 const Page = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
     <div className="flex h-screen overflow-hidden">

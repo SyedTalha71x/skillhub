@@ -17,16 +17,17 @@ import DetailBlogs from "./partials/blogs/detailblogs/page";
 import CloudGuru from "./partials/cloudguru/page";
 import Courses from "./partials/courses/page";
 import Course from "./routes/course/page";
-import Success from './purchasemode/success/page'
-import Cancel from './purchasemode/cancel/page'
-import Dashboard from './dashboard/page'
+import Success from "./purchasemode/success/page";
+import Cancel from "./purchasemode/cancel/page";
+import Dashboard from "./dashboard/page";
 
 import Users from "./dashboard/dashboardPartials/users";
+import Layout1 from './dashboard/dashboardPartials/dashboard'
 
 function App() {
   const location = useLocation();
-  const dashboardPaths = location.pathname.startsWith("/dashboard")
-  
+  const dashboardPaths = location.pathname.startsWith("/dashboard");
+
   return (
     <>
       {!dashboardPaths && <Navbar />}
@@ -50,8 +51,10 @@ function App() {
         <Route path="/course/:slug" element={<Course />} />
 
         {/* Dashboard Route */}
-        <Route path="/dashboard" element={<Dashboard />}>
- <Route path="users" element={<Users />}/>
+        <Route element={<Dashboard />}>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/dashboard" element={<Layout1 />} />
+          <Route path="/dashboard/users" element={<Users />} />
         </Route>
       </Routes>
 

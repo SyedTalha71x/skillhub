@@ -16,8 +16,13 @@ export const login = async (req,res) =>{
             return FailureResponse(res, 'Password is invalid', null, 400)
         }
 
-        const AuthToken =  generateToken(checkExistingUser.id, checkExistingUser.email)
-
+        const roleName = await prisma.role_To_User.findFirst({
+            where: {userId: checkExistingUser.id},
+            include:{
+                role: true
+            }
+        })
+        const AuthToken =  generateToken(checkExistingUser.id, checkExistingUser.email, roleName.role.name)
         return SuccessResponse(res, 'Login Successfull', {AuthToken}, 200)
 
     }

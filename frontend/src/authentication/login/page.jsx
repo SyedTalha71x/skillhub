@@ -6,6 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useStateManage } from "../../context/StateContext";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { jwtDecode } from "jwt-decode";
 
 const Page = () => {
   const {BASE_URL} = useStateManage();
@@ -38,6 +39,9 @@ const Page = () => {
       if(response.data.message.AuthToken){
         toast.success('Login Successfull')
         localStorage.setItem('AuthToken',response.data.message.AuthToken )
+        const decoded = jwtDecode(response.data.message.AuthToken);
+        const UserRole = decoded.roleName;
+        localStorage.setItem('UserRole', UserRole)
         setTimeout(() => {
           window.location.href = "/"
         }, );

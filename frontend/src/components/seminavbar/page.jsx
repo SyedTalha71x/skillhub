@@ -15,6 +15,7 @@ const Page = () => {
 
   const logout = () =>{
     localStorage.removeItem('AuthToken');
+    localStorage.removeItem('UserRole')
     setTimeout(() => {
       window.location.href = 'http://localhost:5173/';
     }, 1000);

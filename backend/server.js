@@ -4,6 +4,7 @@ import cors from 'cors'
 import UserRoutes from './Routes/user-routes.js'
 import CourseRoutes from './Routes/course-routes.js'
 import EnrollmentRoutes from './Routes/enrollment-routes.js'
+import AdminRoutes from './Routes/admin-routes.js'
 
 configDotenv();
 
@@ -17,6 +18,7 @@ app.use(cors())
 app.use("/", UserRoutes);
 app.use("/", CourseRoutes);
 app.use("/", EnrollmentRoutes)
+app.use("/", AdminRoutes)
 
 app.use('/users', (req,res)=>{
     res.send({msg: ' hello worldd'})

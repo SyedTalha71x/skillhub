@@ -1,8 +1,8 @@
 import jwt from 'jsonwebtoken'
 
 
-export const generateToken = (userId, email, roleId) =>{
-    const payload = {userId, email, roleId}
+export const generateToken = (userId, email, roleName) =>{
+    const payload = {userId, email, roleName}
     const result = jwt.sign(payload, process.env.JWT_KEY)
     return result
 }
