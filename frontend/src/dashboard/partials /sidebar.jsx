@@ -12,15 +12,20 @@ import { IoMdSettings } from "react-icons/io";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isCoursesOpen, setIsCoursesOpen] = useState(false);
+  const [dropdownStates, setDropdownStates] = useState({});
+
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
 
-  const toggleCoursesDropdown = () => {
-    setIsCoursesOpen(!isCoursesOpen);
-  };
+  const setDropDown = (menuName) =>{
+    setDropdownStates((prevState)=>({
+         ...prevState,
+    [menuName]: !prevState[menuName]
+    }))
+     
+  }
 
   const menuItems = [
     { name: "Dashboard", icon: <MdOutlineDashboard />, href: "/dashboard" },
@@ -29,8 +34,8 @@ const Sidebar = () => {
       name: "Courses",
       icon: <PiBooksDuotone />,
       subItems: [
-        { name: "Create Course", href: "/dashboard/courses/create" },
-        { name: "Delete Course", href: "/dashboard/courses/delete" },
+        { name: "Create Course", href: "/dashboard/createCourse" },
+        { name: "Edit Course", href: "/dashboard/editCourse" },
       ],
     },
     {
@@ -39,6 +44,13 @@ const Sidebar = () => {
       href: "/dashboard/reports",
     },
     { name: "Settings", icon: <IoMdSettings />, href: "/dashboard/settings" },
+    { name: "Roles and Permissions", icon: <IoMdSettings />,
+      subItems: [
+        { name: "Users", href: "/dashboard/courses/create" },
+        { name: "Roles to users", href: "/dashboard/courses/delete" },
+        { name: "Permission to roles", href: "/dashboard/courses/delete" },
+      ],
+    },
   ];
 
   return (
@@ -72,19 +84,19 @@ const Sidebar = () => {
                   <li key={item.name}>
                     <div
                       className="flex items-center justify-between p-2 rounded-lg hover:bg-gray-700 hover:text-white cursor-pointer transition-colors duration-200"
-                      onClick={toggleCoursesDropdown}
+                      onClick={()=>{setDropDown(item.name)}}
                     >
                       <div className="flex items-center gap-3">
                         <span className="text-lg">{item.icon}</span>
                         <span className="text-sm">{item.name}</span>
                       </div>
                       <span className="text-sm ">
-                        {isCoursesOpen ? <IoIosArrowUp/> : <IoIosArrowDown/>}
+                        {dropdownStates[item.name] ? <IoIosArrowUp/> : <IoIosArrowDown/>}
                       </span>
                     </div>
                     <ul
                       className={`ml-6 overflow-hidden transition-[max-height] duration-500 ${
-                        isCoursesOpen ? "max-h-40" : "max-h-0"
+                        dropdownStates[item.name] ? "max-h-40" : "max-h-0"
                       }`}
                     >
                       {item.subItems.map((subItem) => (

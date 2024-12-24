@@ -23,6 +23,8 @@ import Dashboard from "./dashboard/page";
 
 import Users from "./dashboard/dashboardPartials/users";
 import Layout1 from './dashboard/dashboardPartials/dashboard'
+import CreateCourse from './dashboard/dashboardPartials/courses/createCourse'
+import EditCourse from './dashboard/dashboardPartials/courses/courses'
 
 function App() {
   const location = useLocation();
@@ -55,6 +57,8 @@ function App() {
           <Route path="/" element={<Dashboard />} />
           <Route path="/dashboard" element={<Layout1 />} />
           <Route path="/dashboard/users" element={<Users />} />
+          <Route path="/dashboard/createCourse" element={<CreateCourse />} />
+          <Route path="/dashboard/editCourse" element={<EditCourse />} />
         </Route>
       </Routes>
 
