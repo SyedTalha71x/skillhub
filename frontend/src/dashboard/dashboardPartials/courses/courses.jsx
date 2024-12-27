@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import { Table } from "antd";
 import axios from "axios";
 import { useStateManage } from "../../../context/StateContext";
+import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+
 
 const Courses = () => {
   const { BASE_URL } = useStateManage();
@@ -28,6 +30,14 @@ const Courses = () => {
     fetchData();
   }, [BASE_URL]);
 
+  const handleEdit = (courseId) => {
+    console.log("Edit clicked for courseId:", courseId);
+  };
+
+  const handleDelete = (courseId) => {
+    console.log("Delete clicked for courseId:", courseId);
+  };
+
   const columns = [
     {
       title: "Course Title",
@@ -39,16 +49,16 @@ const Courses = () => {
       dataIndex: "category",
       key: "category",
     },
-    {
-      title: "Description",
-      dataIndex: "description",
-      key: "description",
-      render: (description) => {
-        return description.length > 100
-          ? `${description.slice(0, 100)}...`
-          : description;
-      },
-    },
+    // {
+    //   title: "Description",
+    //   dataIndex: "description",
+    //   key: "description",
+    //   render: (description) => {
+    //     return description.length > 100
+    //       ? `${description.slice(0, 100)}...`
+    //       : description;
+    //   },
+    // },
 
     {
       title: "Price",
@@ -73,10 +83,20 @@ const Courses = () => {
       ),
     },
     {
-      title: "Published",
-      dataIndex: "isPublished",
-      key: "isPublished",
-      render: (isPublished) => (isPublished ? Data.isPublished: 'No'),
+      title: "Actions",
+      key: "actions",
+      render: (record) => (
+        <div className="flex gap-4">
+          <EditOutlined
+            style={{ color: "blue", cursor: "pointer" }}
+            onClick={() => handleEdit(record.courseId)}
+          />
+          <DeleteOutlined
+            style={{ color: "red", cursor: "pointer" }}
+            onClick={() => handleDelete(record.courseId)}
+          />
+        </div>
+      ),
     },
   ];
 
