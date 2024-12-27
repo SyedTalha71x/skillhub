@@ -216,7 +216,7 @@ const Navbar = () => {
         </button>
       ),
     },
-    UserRole === "Admin" && {
+    UserRole === "Admin" || UserRole === "Instructor" && {
       key: "dashboard",
       label: (
         <button className="w-full text-left px-4 py-2 text-sm font-semibold text-white bg-[#EC008C]  rounded-xl transition-all duration-300">
@@ -276,7 +276,7 @@ const Navbar = () => {
                 Contact Sales
               </div>
             </button>
-            {UserRole === "Admin" && (
+            {UserRole === "Admin" || UserRole === 'Instructor' && (
               <button className="hidden md:inline-flex items-center px-4 py-2 text-sm font-semibold rounded-xl text-white bg-[#EC008C] transition-all duration-300">
                 <Link to="/dashboard">Dashboard</Link>
               </button>
