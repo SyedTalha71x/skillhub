@@ -145,9 +145,8 @@ const Dashboard = () => {
 
   return (
     <div className="lg:p-4 md:p-4 sm:p-0 p-0">
-      <h1 className="text-2xl font-bold text-gray-800 mb-4">
-        Overall Analytics
-      </h1>
+           <h1 className="text-xl bg-slate-100 rounded-md shadow-xl p-3 font-bold text-gray-800 mb-4">Overall Analytics</h1>
+
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {cardData.map((card, index) => (
@@ -166,26 +165,33 @@ const Dashboard = () => {
         ))}
       </div>
 
-      <h2 className="text-2xl font-bold text-gray-800 mb-4 mt-10">
-        Enrolled Students
-      </h2>
+      <h1 className="text-xl bg-slate-100 rounded-md mt-[3%] shadow-xl p-3 font-bold text-gray-800 mb-4">Enrolled Students</h1>
+
       <Table
         dataSource={studentData}
         columns={columns}
         rowKey="studentID"
-        pagination={{ pageSize: 10 }}
+        pagination={{
+          pageSize: 10,
+          showSizeChanger: true,
+          showTotal: (total) => `Total ${total} Students`
+        }}
         scroll={{ x: 1000 }}
       />
 
       <div>
-        <h2 className="text-2xl font-bold text-gray-800 mb-4">
-          Enrolled Instructors
-        </h2>
+      <h1 className="text-xl bg-slate-100 rounded-md shadow-xl p-3 font-bold text-gray-800 mb-4">Enrolled Instructors</h1>
+
         <Table
           dataSource={InstructorData}
           columns={InstructorColumns}
           rowKey="instructorID"
-          pagination={{ pageSize: 10 }}
+          pagination={{ 
+            pageSize: 10,
+            showSizeChanger: true,
+            showTotal: (total) => `Total ${total} Instructors`
+
+           }}
           scroll={{ x: 1000 }}
         />
       </div>

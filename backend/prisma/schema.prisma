@@ -55,7 +55,6 @@ model Course {
   students    Enrollment[]
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
-  videoUrl    String
   FlagValidity Int      @default(-1)
   slug        String    @unique
   courselvl   String     

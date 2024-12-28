@@ -53,96 +53,71 @@ const generatePreSignedURL = async (key) => {
 const upload = multer({ storage: multer.memoryStorage() }).array("videos", 10);
 
 export const createCourse = async (req, res) => {
-  upload(req, res, async (err) => {
-    if (err) {
-      console.log(err);
-      return FailureResponse(res, "File upload error", null, 400);
+  try {
+    let {
+      title,
+      description,
+      price,
+      category,
+      thumbnail,
+      syllabus,
+      duration,
+      FlagValidity,
+      courselvl,
+    } = req.body;
+
+    const userId = req.user?.userId;
+    if (!userId) {
+      return FailureResponse(res, "User is not authorized", null, 400);
     }
 
-    try {
-      let {
+    const role_to_user = await prisma.role_To_User.findMany({
+      where: { userId: userId },
+      include: { role: true },
+    });
+
+    if (!role_to_user.length || role_to_user[0].role.name !== "Instructor") {
+      return FailureResponse(
+        res,
+        "Sorry, you are not authorized as an instructor",
+        null,
+        400
+      );
+    }
+
+    let newFlagValidity = FlagValidity || null;
+
+    const slug = title.replace(/\s+/g, "-").toLowerCase();
+    const addCourse = await prisma.course.create({
+      data: {
         title,
         description,
-        price,
+        price: parseFloat(price),
         category,
+        instructorId: userId,
         thumbnail,
-        syllabus,
-        duration,
-        FlagValidity,
+        syllabus:
+          typeof syllabus === "string" ? JSON.parse(syllabus) : syllabus,
+        duration: parseInt(duration),
+        isPublished: true,
+        FlagValidity: newFlagValidity,
         slug,
         courselvl,
-      } = req.body;
+      },
+    });
 
-      const userId = req.user?.userId;
-      if (!userId) {
-        return FailureResponse(res, "User is not authorized", null, 400);
-      }
-
-      const role_to_user = await prisma.role_To_User.findMany({
-        where: { userId: userId },
-        include: { role: true },
-      });
-
-      if (!role_to_user.length || role_to_user[0].role.name !== "Instructor") {
-        return FailureResponse(
-          res,
-          "Sorry, you are not authorized as an instructor",
-          null,
-          400
-        );
-      }
-      let newFlagValidity;
-      if (FlagValidity) {
-        newFlagValidity = FlagValidity;
-      }
-
-      const uploadedfiles = [];
-      for (const file of req.files) {
-        const videoKey = await uploadVideoToS3(
-          file.buffer,
-          file.originalname,
-          file.mimetype
-        );
-        uploadedfiles.push(videoKey);
-      }
-
-      const addCourse = await prisma.course.create({
-        data: {
-          title,
-          description,
-          price: parseFloat(price),
-          category,
-          instructorId: userId,
-          thumbnail,
-          syllabus:
-            typeof syllabus === "string" ? JSON.parse(syllabus) : syllabus,
-          duration: parseInt(duration),
-          isPublished: true,
-          FlagValidity: newFlagValidity,
-          videoUrl: uploadedfiles.join(","),
-          slug,
-          courselvl,
-        },
-      });
-      console.log(addCourse);
-      console.log(addCourse.FlagValidity);
-
-      const videoUrls = await Promise.all(
-        uploadedfiles.map((key) => generatePreSignedURL(key))
-      );
-
-      return SuccessResponse(
-        res,
-        "Course has been made by instructor",
-        { ...addCourse, videoUrls },
-        200
-      );
-    } catch (error) {
-      console.log(error);
-      return FailureResponse(res, "Internal Server Error", null, 500);
-    }
-  });
+    return SuccessResponse(
+      res,
+      "Course has been made by instructor",
+      { ...addCourse },
+      200
+    );
+  } catch (error) {
+    console.error("Error:", error.message || error);
+    return FailureResponse(res, "Internal Server Error", null, 500);
+  }
 };
+
 export const updateCourse = async (req, res) => {
   try {
     const id = req.params.id;
