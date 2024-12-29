@@ -100,7 +100,7 @@ export const createCourse = async (req, res) => {
           typeof syllabus === "string" ? JSON.parse(syllabus) : syllabus,
         duration: parseInt(duration),
         isPublished: true,
-        FlagValidity: newFlagValidity,
+        FlagValidity: parseInt(newFlagValidity),
         slug,
         courselvl,
       },
@@ -187,12 +187,10 @@ export const deleteCourse = async (req, res) => {
     if (!userId) {
       return FailureResponse(res, "User is not authorized", null, 400);
     }
-
     const role_to_user = await prisma.role_To_User.findMany({
       where: { userId: userId },
       include: { role: true },
     });
-
     if (role_to_user[0].role.name !== "Instructor") {
       console.log(role_to_user[0].role.name !== "Instructor");
       return FailureResponse(
@@ -202,7 +200,6 @@ export const deleteCourse = async (req, res) => {
         400
       );
     }
-
     await prisma.course.delete({ where: { id: id } });
     return SuccessResponse(res, "Deleted Course Successfully");
   } catch (error) {

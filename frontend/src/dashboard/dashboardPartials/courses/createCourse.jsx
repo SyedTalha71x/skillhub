@@ -73,6 +73,32 @@ const CreateCourse = () => {
                     <Select.Option value="Programming">Programming</Select.Option>
                     <Select.Option value="Automation">Automation</Select.Option>
                     <Select.Option value="Cloud Computing">Cloud Computing</Select.Option>
+                    <Select.Option value="Other">Other</Select.Option>
+
+                  </Select>
+                </Form.Item>
+              </Col>
+            </Row>
+            <Row gutter={24}>
+              <Col xs={24} md={12}>
+                <Form.Item
+                  label="Course Validity"
+                  name="FlagValidity"
+                  rules={[{ required: true, message: "Please enter the course validity!" }]}
+                >
+                  <Input placeholder="Enter course validity" />
+                </Form.Item>
+              </Col>
+              <Col xs={24} md={12}>
+                <Form.Item
+                  label="Course Level"
+                  name="courselvl"
+                  rules={[{ required: true, message: "Please enter course level!" }]}
+                >
+                  <Select placeholder="Select Course level">
+                    <Select.Option value="Beginner">Beginner</Select.Option>
+                    <Select.Option value="Intermediate">Intermediate</Select.Option>
+                    <Select.Option value="Advanced">Advanced</Select.Option>
                   </Select>
                 </Form.Item>
               </Col>
@@ -191,7 +217,7 @@ const CreateCourse = () => {
                                   <Form.Item
                                     {...contentRestField}
                                     label="Content"
-                                    name={[contentName]}
+                                    name={contentName}
                                     rules={[{ required: true, message: "Please enter content!" }]}
                                   >
                                     <Input placeholder="Enter content" />
@@ -219,7 +245,11 @@ const CreateCourse = () => {
                       </Form.List>
                     </div>
                   ))}
-                  <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
+                  <Button
+                    type="dashed"
+                    onClick={() => add()}
+                    icon={<PlusOutlined />}
+                  >
                     Add Module
                   </Button>
                 </>

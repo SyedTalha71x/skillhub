@@ -39,36 +39,36 @@ model Role_To_User {
    role   Role   @relation(fields: [roleId], references: [id])
    user   User   @relation(fields: [userId], references: [id])
 }
-
 model Course {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  title       String
-  description String
-  price       Float
-  category    String
-  instructorId String
-  instructor  User     @relation(fields: [instructorId], references: [id])
-  thumbnail   String?
-  syllabus    Json?
-  duration    Int 
-  isPublished Boolean @default(false)
-  students    Enrollment[]
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  FlagValidity Int      @default(-1)
-  slug        String    @unique
-  courselvl   String     
+  id           String       @id @default(auto()) @map("_id") @db.ObjectId
+  title        String
+  description  String
+  price        Float
+  category     String
+  instructorId String       @db.ObjectId
+  instructor   User         @relation(fields: [instructorId], references: [id])
+  thumbnail    String?
+  syllabus     Json?
+  duration     Int
+  isPublished  Boolean      @default(false)
+  students     Enrollment[] @relation("CourseToEnrollment", onDelete: Cascade)
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  FlagValidity Int          @default(-1)
+  slug         String       @unique
+  courselvl    String
+  enrollments  Enrollment[] @relation("CourseToEnrollment", onDelete: Cascade)
 }
 
-model Enrollment{
-    id          String   @id @default(auto()) @map("_id") @db.ObjectId 
-    studentId   String   @db.ObjectId
-    courseId    String   @db.ObjectId
-    student     User     @relation(fields: [studentId], references: [id])
-    course      Course   @relation(fields: [courseId], references: [id])
-    enrolledAt  DateTime @default(now()) 
-    enrollmentNo Int     @unique
-    paymentId   String?
-    status      String   @default("pending")
-    expiryDate  DateTime? 
+model Enrollment {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  studentId    String   @db.ObjectId
+  courseId     String   @db.ObjectId
+  student      User     @relation(fields: [studentId], references: [id])
+  course       Course   @relation(fields: [courseId], references: [id])
+  enrolledAt   DateTime @default(now())
+  enrollmentNo Int      @unique
+  paymentId    String?
+  status       String   @default("pending")
+  expiryDate   DateTime?
 }
