@@ -87,7 +87,10 @@ export const createCourse = async (req, res) => {
 
     let newFlagValidity = FlagValidity || null;
 
-    const slug = title.replace(/\s+/g, "-").toLowerCase();
+    const slug = title
+    .replace(/[^a-zA-Z0-9\s]/g, "")
+    .replace(/\s+/g, "-")
+    .toLowerCase();    
     const addCourse = await prisma.course.create({
       data: {
         title,
@@ -117,7 +120,53 @@ export const createCourse = async (req, res) => {
     return FailureResponse(res, "Internal Server Error", null, 500);
   }
 };
+export const updateCourseStatus = async (req,res) =>{
+  try{
+    const courseId = req.params.id;
+    if(!courseId){
+      return FailureResponse(res, "CourseId is required", null, 400);
+    }
+    const userId = req.user?.userId;
+    if (!userId) {
+      return FailureResponse(res, "User is not authorized", null, 400);
+    }
 
+    let {newStatus} = req.body;
+
+    if(!newStatus){
+      return FailureResponse(res, 'Status is not provided', null, 400)
+    }
+    
+    const role_to_user = await prisma.role_To_User.findMany({
+      where: {userId: userId},
+      include: {role: true}
+    })
+
+    if(!role_to_user.length || role_to_user[0].role.name !== 'Instructor'){
+       return FailureResponse(res, 'Sorry you are not authorized as an Instructor', null, 400)
+    }
+
+    const updatedCourse =  await prisma.course.update({
+      where: {id: courseId},
+      data: {
+        status: newStatus
+      }
+    })
+
+    if (!updatedCourse) {
+      return FailureResponse(res, "Course status update failed", null, 400);
+    }
+    console.log(updatedCourse);
+    
+
+    return SuccessResponse(res, `Status has been updated to ${newStatus}`, {Status: updatedCourse.status}, 200)
+  }
+  catch(error){
+    console.log(error);
+    return FailureResponse(res, 'Internal Server Error')
+    
+  }
+}
 export const updateCourse = async (req, res) => {
   try {
     const id = req.params.id;

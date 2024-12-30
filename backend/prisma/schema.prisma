@@ -13,7 +13,6 @@ datasource db {
   provider = "mongodb"
   url      = env("DATABASE_URL")
 }
-
 model User {
   id        String @id @default(auto()) @map("_id") @db.ObjectId
   username  String
@@ -26,19 +25,20 @@ model User {
 }
 
 model Role {
-    id      String @id @default(auto()) @map("_id") @db.ObjectId
-    name    String
-    users   Role_To_User[]
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  name    String
+  users   Role_To_User[]
 }
 
 model Role_To_User {
-   id       String @id @default(auto()) @map("_id") @db.ObjectId
-   roleId   String @db.ObjectId
-   userId   String @db.ObjectId
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  roleId   String @db.ObjectId
+  userId   String @db.ObjectId
 
-   role   Role   @relation(fields: [roleId], references: [id])
-   user   User   @relation(fields: [userId], references: [id])
+  role   Role   @relation(fields: [roleId], references: [id])
+  user   User   @relation(fields: [userId], references: [id])
 }
+
 model Course {
   id           String       @id @default(auto()) @map("_id") @db.ObjectId
   title        String
@@ -51,13 +51,14 @@ model Course {
   syllabus     Json?
   duration     Int
   isPublished  Boolean      @default(false)
-  students     Enrollment[] @relation("CourseToEnrollment", onDelete: Cascade)
+  students     Enrollment[] @relation("StudentsInCourse")
+  enrollments  Enrollment[] @relation("EnrollmentsInCourse")
   createdAt    DateTime     @default(now())
   updatedAt    DateTime     @updatedAt
   FlagValidity Int          @default(-1)
   slug         String       @unique
   courselvl    String
-  enrollments  Enrollment[] @relation("CourseToEnrollment", onDelete: Cascade)
+  status       String       @default("Active")
 }
 
 model Enrollment {
@@ -65,10 +66,12 @@ model Enrollment {
   studentId    String   @db.ObjectId
   courseId     String   @db.ObjectId
   student      User     @relation(fields: [studentId], references: [id])
-  course       Course   @relation(fields: [courseId], references: [id])
+  course       Course   @relation(fields: [courseId], references: [id], name: "StudentsInCourse")
+  courseEnroll Course?  @relation(fields: [courseId], references: [id], name: "EnrollmentsInCourse") // Make it optional
   enrolledAt   DateTime @default(now())
   enrollmentNo Int      @unique
   paymentId    String?
   status       String   @default("pending")
   expiryDate   DateTime?
 }
+

@@ -5,6 +5,7 @@ import UserRoutes from './Routes/user-routes.js'
 import CourseRoutes from './Routes/course-routes.js'
 import EnrollmentRoutes from './Routes/enrollment-routes.js'
 import AdminRoutes from './Routes/admin-routes.js'
+import ProfileRoutes from './Routes/profile-routes.js'
 
 configDotenv();
 
@@ -19,6 +20,8 @@ app.use("/", UserRoutes);
 app.use("/", CourseRoutes);
 app.use("/", EnrollmentRoutes)
 app.use("/", AdminRoutes)
+app.use("/", ProfileRoutes)
+
 
 app.use('/users', (req,res)=>{
     res.send({msg: ' hello worldd'})

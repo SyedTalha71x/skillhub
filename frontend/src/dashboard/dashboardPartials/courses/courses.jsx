@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
-import { Modal, Table } from "antd";
+import { message, Modal, Select, Table } from "antd";
 import axios from "axios";
 import { useStateManage } from "../../../context/StateContext";
-import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import { EditOutlined , UploadOutlined} from "@ant-design/icons";
 
 const Courses = () => {
   const { BASE_URL } = useStateManage();
@@ -12,6 +12,8 @@ const Courses = () => {
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
   const [selectedCourse, setSelectedCourse] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [status, setstatus] = useState('')
+  const [IsStatusModalVisible, setIsStatusModalVisible] = useState(false)
 
   const fetchCourses = async () => {
     try {
@@ -36,30 +38,29 @@ const Courses = () => {
   const handleEdit = (record) => {
     console.log("Edit course:", record);
   };
-
-  const handleDelete = (record) => {
-    setSelectedCourse(record);
-    setIsDeleteModalVisible(true);
+  
+  const handleStatusCheck = async (id) => {
+    setSelectedCourse(courses.find(course => course.id === id));
+    setIsStatusModalVisible(true);
   };
 
-  const handleDeleteConfirm = async () => {
+  const handleStatusUpdate = async () =>{
     const token = localStorage.getItem('AuthToken')
-    try {
-          await axios.delete(`${BASE_URL}/delete-course/${selectedCourse.id}`, {
-            headers: {
-              Authorization: `Bearer ${token}`
-            }
-          })
-          setCourses(prevCourses => 
-        prevCourses.filter(course => course.id !== selectedCourse.id)
-      );
-      
-      setIsDeleteModalVisible(false);
-      setSelectedCourse(null);
-    } catch (error) {
-      console.error("Error deleting course:", error);
+    try{
+      const response = await axios.post(`${BASE_URL}/update-course-status/${selectedCourse.id}`, {
+        newStatus: status
+      }, {headers:{
+        Authorization: `Bearer ${token}`
+      }})
+      message.success('Status has been changed')
+      setstatus(response.data.message.status)
+      setIsStatusModalVisible(false);
     }
-  };
+    catch(error){
+      console.log(error);
+      message.error('Failed to update the Status')
+    }
+  }
 
   const columns = [
     {
@@ -113,9 +114,9 @@ const Courses = () => {
             className="text-blue-500 hover:text-blue-700 cursor-pointer text-lg"
             onClick={() => handleEdit(record)}
           />
-          <DeleteOutlined
+          <UploadOutlined
             className="text-red-500 hover:text-red-700 cursor-pointer text-lg"
-            onClick={() => handleDelete(record)}
+            onClick={() => handleStatusCheck(record.id)}
           />
         </div>
       )
@@ -140,22 +141,24 @@ const Courses = () => {
         scroll={{ x: 1000 }}
       />
 
-      <Modal
-        title="Confirm Delete"
-        open={isDeleteModalVisible}
-        onCancel={() => {
-          setIsDeleteModalVisible(false);
-          setSelectedCourse(null);
-        }}
-        onOk={handleDeleteConfirm}
-        okText="Delete"
+       <Modal
+        title="Update Course Status"
+        open={IsStatusModalVisible}
+        onCancel={() => setIsStatusModalVisible(false)}
+        onOk={handleStatusUpdate}
+        okText="Update"
         cancelText="Cancel"
-        okButtonProps={{ danger: true }}
       >
-        <p>
-          Are you sure you want to delete the course{' '}
-          <span className="font-bold">{selectedCourse?.title}</span>?
-        </p>
+        <p className="mb-4">Current Status: <span className="font-bold">{selectedCourse?.status}</span></p>
+        <Select
+          value={status}
+          onChange={setstatus}
+          style={{ width: '100%' }}
+          placeholder="Select new status"
+        >
+          <Select.Option value="Active">Active</Select.Option>
+          <Select.Option value="Inactive">Inactive</Select.Option>
+        </Select>
       </Modal>
     </div>
   );

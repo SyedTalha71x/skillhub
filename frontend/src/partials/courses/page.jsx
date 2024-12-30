@@ -63,22 +63,21 @@ const filters = [
     ],
   },
 ];
-
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
-
 const Page = () => {
   const [Data, setData] = useState([]);
   const navigate = useNavigate();
   const { BASE_URL } = useStateManage();
-
-
   useEffect(() => {
     const fetchCourses = async () => {
       try {
         const response = await axios.get(`${BASE_URL}/get-all-courses`);
-        setData(response.data.message.getAllCourses);
+        const modifiedResult = response.data.message.getAllCourses.filter(course =>
+          course.status !== 'Inactive'
+        )
+        setData(modifiedResult)
       } catch (error) {
         console.log(error);
       }
@@ -327,7 +326,7 @@ const Page = () => {
                   </form>
 
                   <div className="lg:col-span-3">
-                    {Data?.map((item, index) => {
+                    {Data.status !== 'Inactive' && Data?.map((item, index) => {
                       return (
                         <div
                           key={index}

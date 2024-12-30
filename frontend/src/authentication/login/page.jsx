@@ -25,7 +25,6 @@ const Page = () => {
     }));
   };
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try{
@@ -39,6 +38,7 @@ const Page = () => {
       if(response.data.message.AuthToken){
         toast.success('Login Successfull')
         localStorage.setItem('AuthToken',response.data.message.AuthToken )
+        localStorage.setItem('hasLoggedIn', 'true')
         const decoded = jwtDecode(response.data.message.AuthToken);
         const UserRole = decoded.roleName;
         localStorage.setItem('UserRole', UserRole)
@@ -53,7 +53,8 @@ const Page = () => {
       
     }
   };
-  
+
+
   return (
     <>
       <ToastContainer />
