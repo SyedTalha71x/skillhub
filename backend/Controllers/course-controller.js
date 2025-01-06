@@ -76,7 +76,7 @@ export const createCourse = async (req, res) => {
       include: { role: true },
     });
 
-    if (!role_to_user.length || role_to_user[0].role.name !== "Instructor") {
+    if (!role_to_user.length || role_to_user[0].role.name !== 'Instructor') {
       return FailureResponse(
         res,
         "Sorry, you are not authorized as an instructor",
@@ -298,3 +298,4 @@ export const getSingleCourse = async (req, res) => {
     return FailureResponse(res, "Internal Server Error", null, 500);
   }
 };
+

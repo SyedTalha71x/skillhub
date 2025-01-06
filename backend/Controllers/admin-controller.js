@@ -108,3 +108,43 @@ export const getAllUsers = async (req, res) => {
     return FailureResponse(res, "Internal Server Error", null, 500);
   }
 };
+export const assignPermissionsToInstructor = async (req,res) =>{
+  try{
+
+  }
+  catch(error){
+    console.log(error);
+    return FailureResponse(res, 'Internal Server Error')
+    
+  }
+}
+export const createPermission = async (req,res) =>{
+  try{
+
+  }
+  catch(error){
+    console.log(error);
+    return FailureResponse(res, 'Internal Server Error')
+    
+  }
+}
+export const deletePermission = async (req,res) =>{
+  try{
+
+  }
+  catch(error){
+    console.log(error);
+    return FailureResponse(res, 'Internal Server Error')
+    
+  }
+}
+export const updatePermission = async (req,res) =>{
+  try{
+
+  }
+  catch(error){
+    console.log(error);
+    return FailureResponse(res, 'Internal Server Error')
+    
+  }
+}

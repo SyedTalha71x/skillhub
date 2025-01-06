@@ -207,3 +207,32 @@ export const getAllEnrolledStudents = async (req, res) => {
     return FailureResponse(res, "Internal Server Error");
   }
 };
+export const checkPurchaseCourseStatus = async (req,res) =>{
+  try{
+    const courseId = req.query.courseId;
+
+    const userId = req.user.userId;
+    if(!userId){
+      return FailureResponse(res, 'User is not authorized', null, 400)
+    }
+
+    const isenrolled = await prisma.enrollment.findUnique({
+      where: {id: userId, courseId: String(courseId), status: 'Paid'}
+    })
+
+    if(isenrolled){
+      return SuccessResponse(res, 'Yes you have purchased this course', {isenrolled: true}, 200)
+    }
+    else{
+      return SuccessResponse(res, 'You have not purchased this course yet', {isenrolled: false}, 200)
+
+    }
+
+
+  }
+  catch(error){
+    console.log(error);
+    return FailureResponse(res, 'Internal Server Error')
+    
+  }
+}
