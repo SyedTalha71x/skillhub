@@ -1,7 +1,13 @@
 FROM node:18-alpine
+
+RUN apk add --no-cache libssl3 openssl
+
 WORKDIR /app
-COPY package.json .
+
+COPY package*.json ./
+
 RUN npm install
+
 COPY . .
-EXPOSE 7000
+
 CMD ["npm", "start"]
