@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: skillhub-frontend
+  labels:
+    app: skillhub-frontend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: skillhub-frontend
+  template:
+    metadata:
+      labels:
+        app: skillhub-frontend
+    spec:
+      containers:
+      - name: skillhub-frontend
+        image: talhahussainx673/skillhub-frontend:latest 
+        ports:
+        - containerPort: 3000 
+      env:
+       - name: VITE_STRIPE_PUBLIC_KEY
+         valueFrom:
+          secretKeyRef:
+            name: app-secret
+            key: VITE_STRIPE_PUBLIC_KEY

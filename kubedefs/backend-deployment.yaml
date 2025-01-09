@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: skillhub-backend
+  labels:
+    app: skillhub-backend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: skillhub-backend
+  template:
+    metadata:
+      labels:
+        app: skillhub-backend
+    spec:
+      containers:
+      - name: skillhub-backend
+        image: talhahussainx673/skillhub-backend:latest
+        ports:
+        - containerPort: 7000 
+        env:
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: app-secret
+              key: DATABASE_URL
+        - name: STRIPE_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: app-secret
+              key: STRIPE_SECRET_KEY
+        - name: STRIPE_PUBLIC_KEY
+          valueFrom:
+            secretKeyRef:
+              name: app-secret
+              key: STRIPE_PUBLIC_KEY
+        - name: JWT_KEY
+          valueFrom:
+            secretKeyRef:
+              name: app-secret
+              key: JWT_KEY
+        - name: PORT
+          valueFrom:
+            secretKeyRef:
+              name: app-secret
+              key: PORT
+        - name: FRONTEND_URL
+          valueFrom:
+            secretKeyRef:
+              name: app-secret
+              key: FRONTEND_URL
