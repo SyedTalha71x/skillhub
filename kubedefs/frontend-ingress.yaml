@@ -3,11 +3,11 @@ kind: Ingress
 metadata:
   name: skillhub-frontend-ingress
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
-    cert-manager.io/cluster-issuer: "letsencrypt-production" 
+    nginx.ingress.kubernetes.io/use-regex: "true"
 spec:
+  ingressClassName: nginx
   rules:
-  - host: skillhub.syedtalhahussain.com 
+  - host: skillhub.syedtalhahussain.com
     http:
       paths:
       - path: /
