@@ -1,14 +1,14 @@
 /* eslint-disable no-unused-vars */
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 import Navbar from "./components/navbar/page";
 import Home from "./pages/home/page";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SkillsPage from "./partials/skills/page";
 import Footer from "./components/footer/page";
 import Login from "./authentication/login/page";
 import Register from "./authentication/register/page";
-import { useLocation } from "react-router-dom";
 import ViewPlans from "./partials/plans/viewplans/page";
 import SkillPlan from "./partials/plans/skillplan/page";
 import CloudPlan from "./partials/plans/cloudplan/page";

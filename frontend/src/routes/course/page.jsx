@@ -23,13 +23,6 @@ const Page = () => {
         const response = await axios.get(
           `${BASE_URL}/get-single-course/${slug}`
         );
-
-        // const combinedData = response.data.message.newData.reduce(
-        //   (acc, curr) => {
-        //     return { ...acc, ...curr };
-        //   },
-        //   {}
-        // );
         setData(response.data.message.newData);
       } catch (error) {
         console.log(error);
